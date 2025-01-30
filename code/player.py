@@ -59,19 +59,20 @@ class Player(pygame.sprite.Sprite):
         self.collision('vertical')
             
         if self.jump:
+            print(self.on_surface['right'])
             if self.on_surface["floor"]:
                 #print("z")
                 self.direction.y = - self.jump_height
             elif any((self.on_surface['right'], self.on_surface['left'])):
-                self.direction.y = - self.jump_height
-                add = -3 if self.on_surface['right'] else 3  #allow player to decale to the wall
-                self.direction.x = 1 if self.on_surface['left'] else add
+                self.rect.x += 2 if self.on_surface['left'] else -2
+                self.direction.y = - self.jump_height//1.25
+                
                 
             self.jump = False 
         
         
         #print(self.jump)
-        print(self.on_surface['floor'])
+        # print(self.on_surface['floor'])
         
         
             
@@ -83,16 +84,18 @@ class Player(pygame.sprite.Sprite):
         left_rect = pygame.Rect(self.rect.topleft + vector(-2, self.rect.height /4 ) , (2, self.rect.height/2))  #Les deux rectangles sur les cotés du joueur
         
         #drawing colision rectangle 
-        # pygame.draw.rect(self.display_surface, "red", floor_rect)
-        # pygame.draw.rect(self.display_surface, "red", right_rect)
-        # pygame.draw.rect(self.display_surface, "red", left_rect)
+        pygame.draw.rect(self.display_surface, "red", floor_rect)
+        pygame.draw.rect(self.display_surface, "red", right_rect)
+        pygame.draw.rect(self.display_surface, "red", left_rect)
         
         collide_rects_list = [sprite.rect for sprite in self.collision_sprites]
-           
-        #check collisionnsjnjdkshl;
+        
+        #check collision
         self.on_surface['floor'] =True if floor_rect.collidelist(collide_rects_list)  >= 0 else False
         self.on_surface['right'] = True if right_rect.collidelist(collide_rects_list) >= 0 else False
         self.on_surface['left'] = True if left_rect.collidelist(collide_rects_list)   >= 0 else False
+        self.on_surface['roof'] = True if left_rect.collidelist(collide_rects_list)   >= 0 else False
+        
 
         #print(self.on_surface)
     def collision(self, axis):
@@ -119,14 +122,16 @@ class Player(pygame.sprite.Sprite):
         
         self.old_rect = self.rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
         
-        #séxacute a chaque toursde boucle
-        self.input()
-        
+        #check les contact avecc les trois rectengla dun jouer droite gauche bas
+        self.check_contact()
+
         #print(self.direction)
         self.move(dt)
         
-        #check les contact avecc les trois rectengla dun jouer droite gauche bas
-        self.check_contact()
+        #séxacute a chaque toursde boucle
+        self.input()
+        
+        
         
         
         
