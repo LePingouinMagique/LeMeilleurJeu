@@ -1,4 +1,7 @@
 from settings import * 
+from timer import Timer
+
+
 class Player(pygame.sprite.Sprite): 
     def __init__(self,pos,groups,collision_sprites): 
         super().__init__(groups) 
@@ -25,6 +28,12 @@ class Player(pygame.sprite.Sprite):
         
         #display
         self.display_surface = pygame.display.get_surface()
+        
+        #timer
+        self.timers = {
+            'wall jump': Timer(200)
+        }
+        
         
     def input(self):
         keys =  pygame.key.get_pressed()
@@ -73,9 +82,7 @@ class Player(pygame.sprite.Sprite):
         
         #print(self.jump)
         # print(self.on_surface['floor'])
-        
-        
-            
+               
             
     def check_contact(self):
         #for explain :  code\explain\contact_with.png  on crée 3 rectengle et on check les contacts
@@ -98,6 +105,8 @@ class Player(pygame.sprite.Sprite):
         
 
         #print(self.on_surface)
+        
+        
     def collision(self, axis):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.rect):
@@ -118,10 +127,17 @@ class Player(pygame.sprite.Sprite):
                     if self.rect.top <= sprite.rect.bottom and self.old_rect.top >= sprite.old_rect.bottom: #en heut
                         self.rect.top = sprite.rect.bottom
                 
+    def uptate_timer(self):
+        for timer in self.timers.values():
+            timer.update() #update chaque timer pour le joueur
+        
+        
+        
     def update(self,dt):
         
         self.old_rect = self.rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
-        
+        #uptate the times
+        self.uptate_timer()
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
 
