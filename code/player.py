@@ -14,16 +14,17 @@ class Player(pygame.sprite.Sprite):
         
         #mouv
         self.direction = vector(0,0)
-        self.speed = 650 #200
-        self.gravity = 1600
+        self.speed = 350 #200
+        self.gravity = 1300
         self.jump = False
-        self.jump_height = 900
+        self.jump_height = 600
         
         #collision
         self.collision_sprites = collision_sprites #donne tout les autres sprites
         self.on_surface = {'floor':False, 
                            'left':False,
-                           'right':False
+                           'right':False,
+                           'roof':False
                            }
         
         #display
@@ -31,32 +32,36 @@ class Player(pygame.sprite.Sprite):
         
         #timer
         self.timers = {
-            'wall jump': Timer(200)
+            'wall jump': Timer(400)
         }
         
         
     def input(self):
         keys =  pygame.key.get_pressed()
         input_vector = vector(0,0)
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            #print("right")
-            input_vector.x +=1
-        if keys[pygame.K_LEFT] or keys[pygame.K_q]:
-            input_vector.x -=1
+        if not self.timers["wall jump"].active:
             
-        self.direction.x = input_vector.normalize().x if input_vector.length() > 0 else input_vector.x # genre ca met la taille max a 1
+            if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                #print("right")
+                input_vector.x +=1
+            if keys[pygame.K_LEFT] or keys[pygame.K_q]:
+                input_vector.x -=1
+                
+            self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
         
         #jump
         if keys[pygame.K_SPACE]:
             
             self.jump = True
             
+            
     
     def move(self,dt):
         #horizontal
         self.rect.x += self.direction.x * self.speed * dt # dt => tjr avoir la même vitesse
         self.collision('horizontal')
-        
+        # if self.on_surface['roof']:
+        #     self.direction.y = 10
         if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])):
             self.direction.y = 0
             self.rect.y += self.gravity /10 * dt
@@ -73,10 +78,9 @@ class Player(pygame.sprite.Sprite):
                 #print("z")
                 self.direction.y = - self.jump_height
             elif any((self.on_surface['right'], self.on_surface['left'])):
-                self.rect.x += 2 if self.on_surface['left'] else -2
-                self.direction.y = - self.jump_height//1.25
-                
-                
+                self.timers["wall jump"].activate()
+                self.direction.y = - self.jump_height
+                self.direction.x = 1 if self.on_surface['left'] else -1
             self.jump = False 
         
         
@@ -89,11 +93,12 @@ class Player(pygame.sprite.Sprite):
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 2))
         right_rect = pygame.Rect(self.rect.topright + vector(0,self.rect.height /4),(2,self.rect.height /2))
         left_rect = pygame.Rect(self.rect.topleft + vector(-2, self.rect.height /4 ) , (2, self.rect.height/2))  #Les deux rectangles sur les cotés du joueur
-        
+        roof_rect = pygame.Rect(self.rect.topleft + vector(0,-2),(self.rect.width, 2))
         #drawing colision rectangle 
         pygame.draw.rect(self.display_surface, "red", floor_rect)
         pygame.draw.rect(self.display_surface, "red", right_rect)
         pygame.draw.rect(self.display_surface, "red", left_rect)
+        pygame.draw.rect(self.display_surface, "red", roof_rect)
         
         collide_rects_list = [sprite.rect for sprite in self.collision_sprites]
         
@@ -101,7 +106,7 @@ class Player(pygame.sprite.Sprite):
         self.on_surface['floor'] =True if floor_rect.collidelist(collide_rects_list)  >= 0 else False
         self.on_surface['right'] = True if right_rect.collidelist(collide_rects_list) >= 0 else False
         self.on_surface['left'] = True if left_rect.collidelist(collide_rects_list)   >= 0 else False
-        self.on_surface['roof'] = True if left_rect.collidelist(collide_rects_list)   >= 0 else False
+        self.on_surface['roof'] = True if roof_rect.collidelist(collide_rects_list)   >= 0 else False
         
 
         #print(self.on_surface)
@@ -138,14 +143,17 @@ class Player(pygame.sprite.Sprite):
         self.old_rect = self.rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
         #uptate the times
         self.uptate_timer()
+        #séxacute a chaque toursde boucle
+        self.input()
+        #print(self.direction)
+        self.move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
 
-        #print(self.direction)
-        self.move(dt)
         
-        #séxacute a chaque toursde boucle
-        self.input()
+    
+        #print(self.timers['wall jump'].active)
+        print(self.direction)
         
         
         
