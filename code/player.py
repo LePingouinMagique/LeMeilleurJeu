@@ -15,9 +15,9 @@ class Player(pygame.sprite.Sprite):
         #mouv
         self.direction = vector(0,0)
         self.speed = 350 #200
-        self.gravity = 1300
+        self.gravity = 1500
         self.jump = False
-        self.jump_height = 600
+        self.jump_height = 900
         
         #collision
         self.collision_sprites = collision_sprites #donne tout les autres sprites
@@ -60,11 +60,11 @@ class Player(pygame.sprite.Sprite):
         #horizontal
         self.rect.x += self.direction.x * self.speed * dt # dt => tjr avoir la même vitesse
         self.collision('horizontal')
-        # if self.on_surface['roof']:
-        #     self.direction.y = 10
+        if self.on_surface['roof']:
+            self.direction.y = 10
         if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])):
             self.direction.y = 0
-            self.rect.y += self.gravity /10 * dt
+            self.rect.y += self.gravity /20 * dt
         else:
             #vertical  # formule bizarre que je comprends pas
             self.direction.y += self.gravity/2*dt
@@ -73,15 +73,14 @@ class Player(pygame.sprite.Sprite):
         self.collision('vertical')
             
         if self.jump:
-            print(self.on_surface['right'])
             if self.on_surface["floor"]:
                 #print("z")
                 self.direction.y = - self.jump_height
             elif any((self.on_surface['right'], self.on_surface['left'])):
                 self.timers["wall jump"].activate()
-                self.direction.y = - self.jump_height
+                self.direction.y =  - self.jump_height
                 self.direction.x = 1 if self.on_surface['left'] else -1
-            self.jump = False 
+            self.jump = False  
         
         
         #print(self.jump)
@@ -152,8 +151,8 @@ class Player(pygame.sprite.Sprite):
 
         
     
-        #print(self.timers['wall jump'].active)
-        print(self.direction)
+        print(self.timers['wall jump'].active)
+        # print(self.direction)
         
         
         
