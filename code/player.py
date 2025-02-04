@@ -17,9 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = 350 #200
         self.gravity = 1700
         self.jump = False
-        self.jump_height = 900
-        self.frottements = False
-        self.fatigue = False    
+        self.jump_height = 900    
         
         #collision
         self.collision_sprites = collision_sprites #donne tout les autres sprites
@@ -40,6 +38,7 @@ class Player(pygame.sprite.Sprite):
         
         
     def input(self):
+        self.frottements = False
         keys =  pygame.key.get_pressed()
         input_vector = vector(0,0)
         if not self.timers["wall jump"].active:
@@ -72,10 +71,11 @@ class Player(pygame.sprite.Sprite):
         if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])):
             self.direction.y = 0
             # self.timers["wall jump"].activate() #nouvelle méca + bug
-            if self.frottements:
+            self.repeat = True
+            if not self.timers["wall jump"].active:
+                self.rect.y += self.gravity  * dt
+            elif self.frottements:
                 self.rect.y += self.gravity /20 * dt
-            elif self.fatigue:
-                self.rect.y += self.gravity * 2 * dt
             else:
                 self.rect.y += self.gravity /10 * dt
         else:
@@ -160,7 +160,7 @@ class Player(pygame.sprite.Sprite):
         self.move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
-        print(self.frottements)
+        print(self.timers["wall jump"].active)
 
         
     
