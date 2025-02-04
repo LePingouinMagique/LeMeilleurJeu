@@ -14,11 +14,17 @@ class Player(pygame.sprite.Sprite):
         
         #mouv
         self.direction = vector(0,0)
-        self.speed = 350 #200
-        self.gravity = 1700
+        self.speed = 250 #200
+        self.gravity = 1300
         self.jump = False
-        self.jump_height = 900    
+        self.jump_height = 900
+        self.frottements = False
+        self.fatigue = False    
         
+        self.arrivée_paroie = 0   #cette variable permet d'utiliser un cooldown (wall jump => un peu de glissade avant) lorsque que lon retouche une paroie (cad avant que  on en touche)
+                                    # 0=> pas sur une paroie
+                                    # 1=> viens d'arrivée sur une paroie
+                                    # 2=> deuxième tour de boucle ou 1<k tour de boucle
         #collision
         self.collision_sprites = collision_sprites #donne tout les autres sprites
         self.on_surface = {'floor':False, 
@@ -32,9 +38,10 @@ class Player(pygame.sprite.Sprite):
         
         #timer
         self.timers = {
-            'wall jump': Timer(400)
+            'wall jump': Timer(300), # durée de la propulsion d'un wall jump
+            'time before wall jump':Timer(250),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
+            'jump':Timer(200)  # latence entre chaque jump (indépendant de wall juump)
         }
-        
         
         
     def input(self):
@@ -50,55 +57,63 @@ class Player(pygame.sprite.Sprite):
                 input_vector.x -=1
                 
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
-        else:
-            if (self.on_surface['right'] and (keys[pygame.K_RIGHT] or keys[pygame.K_d])) or (self.on_surface['left'] and (keys[pygame.K_LEFT] or keys[pygame.K_q])):
-                self.frottements = True
+        
         #jump
-        if keys[pygame.K_SPACE]:
-            
+        if keys[pygame.K_SPACE] and not self.timers["jump"].active:
+            self.timers["jump"].activate()
             self.jump = True
             
             
     
     def move(self,dt):
         #horizontal
-        self.rect.x += self.direction.x * self.speed * dt # dt => tjr avoir la même vitesse
+        self.rect.x += self.direction.x * self.speed * dt  # dt => tjr avoir la même vitesse
         self.collision('horizontal')
-
-        if self.on_surface['floor']:
-            self.timers["wall jump"].deactivate()
-
-        if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])):
+        # if self.on_surface['roof']:
+        #     self.direction.y = 10
+        if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])) and not self.timers["jump"].active:
+            
+            if self.arrivée_paroie == 0:
+                self.arrivée_paroie =1
+                self.timers["time before wall jump"].activate()
+            elif self.arrivée_paroie == 1 or self.arrivée_paroie == 2:
+                self.arrivée_paroie = 2
+                
+                
             self.direction.y = 0
             # self.timers["wall jump"].activate() #nouvelle méca + bug
-            self.repeat = True
-            if not self.timers["wall jump"].active:
-                self.rect.y += self.gravity  * dt
-            elif self.frottements:
+            if self.frottements:
                 self.rect.y += self.gravity /20 * dt
+            elif self.fatigue:
+                self.rect.y += self.gravity * 2 * dt
             else:
                 self.rect.y += self.gravity /10 * dt
         else:
+            self.arrivée_paroie = 0
             #vertical  # formule bizarre que je comprends pas
             self.direction.y += self.gravity/2*dt
             self.rect.y += self.direction.y*dt
             self.direction.y += self.gravity/2*dt
         self.collision('vertical')
             
-        if self.on_surface['roof']:
-            self.direction.y = 15
-
         if self.jump:
-            if self.on_surface["floor"]:
+            print(self.on_surface['right'])
+            if self.on_surface["floor"]:  #JUMP NORMAL
                 #print("z")
                 self.direction.y = - self.jump_height
-            elif any((self.on_surface['right'], self.on_surface['left'])):
-                # self.timers["wall jump"].activate()
-                self.direction.y =  - self.jump_height
-                self.direction.x = 1 if self.on_surface['left'] else -1
-            self.jump = False  
+            elif any((self.on_surface['right'], self.on_surface['left'])) and not self.on_surface["floor"] and not self.timers["time before wall jump"].active:  #WALL JUMP
+                print("#"*99)
+                self.timers["wall jump"].activate()
+                
+                self.direction.y = - self.jump_height
+                self.direction.x = self.wall_jump_power if self.on_surface['left'] else -self.wall_jump_power
+            self.jump = False
         
-
+        
+        #print(self.jump)
+        # print(self.on_surface['floor'])
+               
+            
     def check_contact(self):
         #for explain :  code\explain\contact_with.png  on crée 3 rectengle et on check les contacts
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 2))
@@ -160,10 +175,15 @@ class Player(pygame.sprite.Sprite):
         self.move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
-        print(self.timers["wall jump"].active)
+        print(self.frottements)
 
         
     
+        #print(self.timers['wall jump'].active)
+        #print(self.direction)
+        
+        print(   self.timers["time before wall jump"].active   )
+        #print(self.arrivée_paroie)
         
         
         
