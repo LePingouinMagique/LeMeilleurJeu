@@ -1,9 +1,12 @@
 from settings import * 
 from timer import Timer
+# from timeit import Timer
 
 
 class Player(pygame.sprite.Sprite): 
     def __init__(self,pos,groups,collision_sprites): 
+        global fatigue
+        fatigue = False
         super().__init__(groups) 
         self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
         self.image.fill('yellow') 
@@ -15,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         #mouv
         self.direction = vector(0,0)
         self.speed = 350 #200
-        self.gravity = 1500
+        self.gravity = 1700
         self.jump = False
         self.jump_height = 900
         
@@ -36,7 +39,10 @@ class Player(pygame.sprite.Sprite):
         }
         
         
+        
     def input(self):
+        global frottements
+        frottements = False
         keys =  pygame.key.get_pressed()
         input_vector = vector(0,0)
         if not self.timers["wall jump"].active:
@@ -48,7 +54,9 @@ class Player(pygame.sprite.Sprite):
                 input_vector.x -=1
                 
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
-        
+        else:
+            if (self.on_surface['right'] and (keys[pygame.K_RIGHT] or keys[pygame.K_d])) or (self.on_surface['left'] and (keys[pygame.K_LEFT] or keys[pygame.K_q])):
+                frottements = True
         #jump
         if keys[pygame.K_SPACE]:
             
@@ -60,11 +68,19 @@ class Player(pygame.sprite.Sprite):
         #horizontal
         self.rect.x += self.direction.x * self.speed * dt # dt => tjr avoir la même vitesse
         self.collision('horizontal')
-        if self.on_surface['roof']:
-            self.direction.y = 10
+
+        if self.on_surface['floor']:
+            self.timers["wall jump"].deactivate()
+
         if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])):
             self.direction.y = 0
-            self.rect.y += self.gravity /20 * dt
+            # self.timers["wall jump"].activate() #nouvelle méca + bug
+            if frottements:
+                self.rect.y += self.gravity /20 * dt
+            elif fatigue:
+                self.rect.y += self.gravity * 2 * dt
+            else:
+                self.rect.y += self.gravity /10 * dt
         else:
             #vertical  # formule bizarre que je comprends pas
             self.direction.y += self.gravity/2*dt
@@ -72,21 +88,20 @@ class Player(pygame.sprite.Sprite):
             self.direction.y += self.gravity/2*dt
         self.collision('vertical')
             
+        if self.on_surface['roof']:
+            self.direction.y = 15
+
         if self.jump:
             if self.on_surface["floor"]:
                 #print("z")
                 self.direction.y = - self.jump_height
             elif any((self.on_surface['right'], self.on_surface['left'])):
-                self.timers["wall jump"].activate()
+                # self.timers["wall jump"].activate()
                 self.direction.y =  - self.jump_height
                 self.direction.x = 1 if self.on_surface['left'] else -1
             self.jump = False  
         
-        
-        #print(self.jump)
-        # print(self.on_surface['floor'])
-               
-            
+
     def check_contact(self):
         #for explain :  code\explain\contact_with.png  on crée 3 rectengle et on check les contacts
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 2))
@@ -148,11 +163,10 @@ class Player(pygame.sprite.Sprite):
         self.move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
+        print(frottements)
 
         
     
-        print(self.timers['wall jump'].active)
-        # print(self.direction)
         
         
         

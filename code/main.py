@@ -14,7 +14,7 @@ class Game:
 
 		self.tmx_map = {0:load_pygame(join('..','data','levels','omni.tmx'))} #liste qui charge toute les cartes
 		self.current_stage = Level(self.tmx_map[0])
-		print(self.tmx_map)
+		# print(self.tmx_map)
 		#bg
 
 	def run(self):
