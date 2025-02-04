@@ -17,9 +17,8 @@ class Player(pygame.sprite.Sprite):
         self.speed = 250 #200
         self.gravity = 1300
         self.jump = False
-        self.jump_height = 900
-        self.frottements = False
-        self.fatigue = False    
+        self.jump_height = 600
+        self.wall_jump_power = 1.2
         
         self.arrivée_paroie = 0   #cette variable permet d'utiliser un cooldown (wall jump => un peu de glissade avant) lorsque que lon retouche une paroie (cad avant que  on en touche)
                                     # 0=> pas sur une paroie
@@ -45,7 +44,6 @@ class Player(pygame.sprite.Sprite):
         
         
     def input(self):
-        self.frottements = False
         keys =  pygame.key.get_pressed()
         input_vector = vector(0,0)
         if not self.timers["wall jump"].active:
@@ -81,13 +79,7 @@ class Player(pygame.sprite.Sprite):
                 
                 
             self.direction.y = 0
-            # self.timers["wall jump"].activate() #nouvelle méca + bug
-            if self.frottements:
-                self.rect.y += self.gravity /20 * dt
-            elif self.fatigue:
-                self.rect.y += self.gravity * 2 * dt
-            else:
-                self.rect.y += self.gravity /10 * dt
+            self.rect.y += self.gravity /10 * dt
         else:
             self.arrivée_paroie = 0
             #vertical  # formule bizarre que je comprends pas
@@ -175,7 +167,6 @@ class Player(pygame.sprite.Sprite):
         self.move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
-        print(self.frottements)
 
         
     
