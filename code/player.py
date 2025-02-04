@@ -1,12 +1,9 @@
 from settings import * 
 from timer import Timer
-# from timeit import Timer
 
 
 class Player(pygame.sprite.Sprite): 
     def __init__(self,pos,groups,collision_sprites): 
-        global fatigue
-        fatigue = False
         super().__init__(groups) 
         self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
         self.image.fill('yellow') 
@@ -21,6 +18,8 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 1700
         self.jump = False
         self.jump_height = 900
+        self.frottements = False
+        self.fatigue = False    
         
         #collision
         self.collision_sprites = collision_sprites #donne tout les autres sprites
@@ -41,8 +40,6 @@ class Player(pygame.sprite.Sprite):
         
         
     def input(self):
-        global frottements
-        frottements = False
         keys =  pygame.key.get_pressed()
         input_vector = vector(0,0)
         if not self.timers["wall jump"].active:
@@ -56,7 +53,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
         else:
             if (self.on_surface['right'] and (keys[pygame.K_RIGHT] or keys[pygame.K_d])) or (self.on_surface['left'] and (keys[pygame.K_LEFT] or keys[pygame.K_q])):
-                frottements = True
+                self.frottements = True
         #jump
         if keys[pygame.K_SPACE]:
             
@@ -75,9 +72,9 @@ class Player(pygame.sprite.Sprite):
         if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])):
             self.direction.y = 0
             # self.timers["wall jump"].activate() #nouvelle méca + bug
-            if frottements:
+            if self.frottements:
                 self.rect.y += self.gravity /20 * dt
-            elif fatigue:
+            elif self.fatigue:
                 self.rect.y += self.gravity * 2 * dt
             else:
                 self.rect.y += self.gravity /10 * dt
@@ -163,7 +160,7 @@ class Player(pygame.sprite.Sprite):
         self.move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
-        print(frottements)
+        print(self.frottements)
 
         
     
