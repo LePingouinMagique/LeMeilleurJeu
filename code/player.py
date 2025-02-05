@@ -14,10 +14,10 @@ class Player(pygame.sprite.Sprite):
         
         #mouv
         self.direction = vector(0,0)
-        self.speed = 250 #200
-        self.gravity = 1300
+        self.speed = 300 #200
+        self.gravity = 1900
         self.jump = False
-        self.jump_height = 600
+        self.jump_height = 1000
         self.wall_jump_power = 1.2
         
         self.arrivée_paroie = 0   #cette variable permet d'utiliser un cooldown (wall jump => un peu de glissade avant) lorsque que lon retouche une paroie (cad avant que  on en touche)
@@ -38,12 +38,13 @@ class Player(pygame.sprite.Sprite):
         #timer
         self.timers = {
             'wall jump': Timer(300), # durée de la propulsion d'un wall jump
-            'time before wall jump':Timer(250),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
+            'time before wall jump':Timer(100),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
             'jump':Timer(200)  # latence entre chaque jump (indépendant de wall juump)
         }
         
         
     def input(self):
+        self.frottements = False
         keys =  pygame.key.get_pressed()
         input_vector = vector(0,0)
         if not self.timers["wall jump"].active:
@@ -55,7 +56,9 @@ class Player(pygame.sprite.Sprite):
                 input_vector.x -=1
                 
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
-        
+            if (self.on_surface['right'] and (keys[pygame.K_RIGHT] or keys[pygame.K_d])) or (self.on_surface['left'] and (keys[pygame.K_LEFT] or keys[pygame.K_q])):
+                self.frottements = True
+
         #jump
         if keys[pygame.K_SPACE] and not self.timers["jump"].active:
             self.timers["jump"].activate()
@@ -67,8 +70,6 @@ class Player(pygame.sprite.Sprite):
         #horizontal
         self.rect.x += self.direction.x * self.speed * dt  # dt => tjr avoir la même vitesse
         self.collision('horizontal')
-        # if self.on_surface['roof']:
-        #     self.direction.y = 10
         if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])) and not self.timers["jump"].active:
             
             if self.arrivée_paroie == 0:
@@ -77,9 +78,11 @@ class Player(pygame.sprite.Sprite):
             elif self.arrivée_paroie == 1 or self.arrivée_paroie == 2:
                 self.arrivée_paroie = 2
                 
-                
             self.direction.y = 0
-            self.rect.y += self.gravity /10 * dt
+            if self.frottements:
+                self.rect.y += self.gravity /20 * dt
+            else:
+                self.rect.y += self.gravity /10 * dt
         else:
             self.arrivée_paroie = 0
             #vertical  # formule bizarre que je comprends pas
@@ -87,9 +90,10 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += self.direction.y*dt
             self.direction.y += self.gravity/2*dt
         self.collision('vertical')
-            
+        if self.on_surface['roof']:
+            self.direction.y = 10
+
         if self.jump:
-            print(self.on_surface['right'])
             if self.on_surface["floor"]:  #JUMP NORMAL
                 #print("z")
                 self.direction.y = - self.jump_height
@@ -178,5 +182,9 @@ class Player(pygame.sprite.Sprite):
         
         
         
+        
+
+
+
         
         
