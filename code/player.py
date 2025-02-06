@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.y += self.gravity/2*dt
         self.collision('vertical')
         if self.on_surface['roof']:
-            self.direction.y = 10
+            self.direction.y = 20
 
         if self.jump:
             if self.on_surface["floor"]:  #JUMP NORMAL
