@@ -56,6 +56,8 @@ class Player(pygame.sprite.Sprite):
                 input_vector.x -=1
                 
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
+
+            #on vérifie ici si le joueur est collé et glisse contre un mur et appui sur la touche dans le meme sens
             if (self.on_surface['right'] and (keys[pygame.K_RIGHT] or keys[pygame.K_d])) or (self.on_surface['left'] and (keys[pygame.K_LEFT] or keys[pygame.K_q])):
                 self.frottements = True
 
@@ -79,8 +81,9 @@ class Player(pygame.sprite.Sprite):
                 self.arrivée_paroie = 2
                 
             self.direction.y = 0
+            
             if self.frottements:
-                self.rect.y += self.gravity /20 * dt
+                self.rect.y += self.gravity /20 * dt    # touche appuyé meme sens pendant glissade
             else:
                 self.rect.y += self.gravity /10 * dt
         else:
