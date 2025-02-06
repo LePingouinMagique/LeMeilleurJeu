@@ -175,13 +175,6 @@
     <property name="speed" type="int" value="60"/>
    </properties>
   </object>
-  <object id="81" name="helicopter" x="554" y="57.5993" width="481.333" height="12.8014">
-   <properties>
-    <property name="flip" type="bool" value="false"/>
-    <property name="platform" type="bool" value="true"/>
-    <property name="speed" type="int" value="60"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="7" name="Items" visible="0">
   <object id="22" name="diamond" gid="49" x="512" y="384" width="64" height="64"/>
