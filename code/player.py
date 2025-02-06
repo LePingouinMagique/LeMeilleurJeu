@@ -138,7 +138,7 @@ class Player(pygame.sprite.Sprite):
         #print(self.on_surface)
         self.platform = None
         for sprite in [sprite for sprite in self.collision_sprites.sprites() if hasattr(sprite, 'moving')]:
-            if sprite.rect.colliderect(floor_rect)
+            if sprite.rect.colliderect(floor_rect):
                 self.platform = sprite
         
     def collision(self, axis):
