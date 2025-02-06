@@ -180,7 +180,7 @@ class Player(pygame.sprite.Sprite):
         #print(self.timers['wall jump'].active)
         #print(self.direction)
         
-        print(   self.timers["time before wall jump"].active   )
+        #print(   self.timers["time before wall jump"].active   )
         #print(self.arrivée_paroie)
         
         
