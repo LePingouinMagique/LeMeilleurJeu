@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         
         #timer
         self.timers = {
-            'wall jump': Timer(300), # durée de la propulsion d'un wall jump
+            'wall jump': Timer(270), # durée de la propulsion d'un wall jump
             'time before wall jump':Timer(100),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
             'jump':Timer(200)  # latence entre chaque jump (indépendant de wall juump)
         }
