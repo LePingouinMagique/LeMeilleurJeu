@@ -72,7 +72,7 @@ class Player(pygame.sprite.Sprite):
         #horizontal
         self.rect.x += self.direction.x * self.speed * dt  # dt => tjr avoir la même vitesse
         self.collision('horizontal')
-        if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])) and not self.timers["jump"].active:
+        if not self.on_surface['floor'] and any((self.on_surface['right'],self.on_surface['left'])) and not self.timers["jump"].active :
             
             if self.arrivée_paroie == 0:
                 self.arrivée_paroie =1
@@ -87,11 +87,12 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.rect.y += self.gravity /10 * dt
         else:
-            self.arrivée_paroie = 0
-            #vertical  # formule bizarre que je comprends pas
-            self.direction.y += self.gravity/2*dt
-            self.rect.y += self.direction.y*dt
-            self.direction.y += self.gravity/2*dt
+            if not self.platform:
+                self.arrivée_paroie = 0
+                #vertical  # formule bizarre que je comprends pas
+                self.direction.y += self.gravity/2*dt
+                self.rect.y += self.direction.y*dt
+                self.direction.y += self.gravity/2*dt
         self.collision('vertical')
         if self.on_surface['roof']:
             self.direction.y = 20
@@ -100,6 +101,7 @@ class Player(pygame.sprite.Sprite):
             if self.on_surface["floor"]:  #JUMP NORMAL
                 #print("z")
                 self.direction.y = - self.jump_height
+                self.rect.bottom -= 1
             elif any((self.on_surface['right'], self.on_surface['left'])) and not self.on_surface["floor"] and not self.timers["time before wall jump"].active:  #WALL JUMP
                 print("#"*99)
                 self.timers["wall jump"].activate()
