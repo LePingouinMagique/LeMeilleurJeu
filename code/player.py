@@ -1,12 +1,14 @@
 from settings import * 
 from timer import Timer
+from os.path import join
 
 
 class Player(pygame.sprite.Sprite): 
     def __init__(self,pos,groups,collision_sprites): 
         super().__init__(groups) 
-        self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
-        self.image.fill('yellow') 
+        # self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
+        # self.image.fill('yellow') 
+        self.image = pygame.image.load(join('graphics','player','idle','0.png'))
         
         #rects
         self.rect = self.image.get_frect(topleft = pos)
@@ -101,7 +103,6 @@ class Player(pygame.sprite.Sprite):
             self.jump = True
 
             
-    
     def move(self,dt):
         #horizontal
         self.rect.x += self.direction.x * self.speed * dt  # dt => tjr avoir la même vitesse
@@ -150,6 +151,7 @@ class Player(pygame.sprite.Sprite):
         
         #print(self.jump)
         # print(self.on_surface['floor'])
+             
                
     def platform_move(self,dt):
         if self.platform:
@@ -191,17 +193,17 @@ class Player(pygame.sprite.Sprite):
                     #left collision
                     #print("overlap")
                     
-                    if self.rect.left <= sprite.rect.right and self.old_rect.left >= sprite.old_rect.right: #gauche
+                    if self.rect.left <= sprite.rect.right and int(self.old_rect.left) >= sprite.old_rect.right: #gauche
                         self.rect.left = sprite.rect.right
                         
-                    if self.rect.right >= sprite.rect.left and self.old_rect.right <= sprite.old_rect.left: #droite
+                    if self.rect.right >= sprite.rect.left and int(self.old_rect.right) <= sprite.old_rect.left: #droite
                         self.rect.right = sprite.rect.left
     
                 else:
-                    if self.rect.bottom >= sprite.rect.top and self.old_rect.bottom <= sprite.old_rect.top: #en bas
+                    if self.rect.bottom >= sprite.rect.top and int(self.old_rect.bottom) <= sprite.old_rect.top: #en bas
                         self.rect.bottom = sprite.rect.top
                         self.direction.y = 0
-                    if self.rect.top <= sprite.rect.bottom and self.old_rect.top >= sprite.old_rect.bottom: #en heut
+                    if self.rect.top <= sprite.rect.bottom and int(self.old_rect.top) >= sprite.old_rect.bottom: #en heut
                         self.rect.top = sprite.rect.bottom
                         if hasattr(sprite, 'moving'):
                             self.rect.y +=6
