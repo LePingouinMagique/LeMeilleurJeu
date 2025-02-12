@@ -44,6 +44,39 @@ class Player(pygame.sprite.Sprite):
         }
         
         
+        #TEST######################
+        # Initialisation de la manette
+        pygame.joystick.init()
+        if pygame.joystick.get_count() > 0:
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
+            print(f"Manette détectée : {self.joystick.get_name()}")
+        else:
+            self.joystick = None
+            print("⚠️ Aucune manette détectée !")
+        ##########################
+
+    def controller_input(self):
+        """Gestion des entrées manette"""
+        if not self.joystick:
+            return
+
+        DEADZONE = 0.2
+
+        # Stick droit pour déplacement
+        x_axis = self.joystick.get_axis(0)  # Stick droit horizontal
+
+        if abs(x_axis) > DEADZONE:
+            self.direction.x = x_axis
+        else:
+            self.direction.x = 0
+
+        # Bouton B pour sauter (souvent le bouton 1 sur les manettes Switch Pro)
+        if self.joystick.get_button(1) and not self.timers["jump"].active:
+            self.timers["jump"].activate()
+            self.jump = True
+    
+        
     def input(self):
         self.frottements = False
         keys =  pygame.key.get_pressed()
@@ -66,6 +99,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and not self.timers["jump"].active:
             self.timers["jump"].activate()
             self.jump = True
+
             
     
     def move(self,dt):
@@ -93,15 +127,18 @@ class Player(pygame.sprite.Sprite):
                 self.direction.y += self.gravity/2*dt
                 self.rect.y += self.direction.y*dt
                 self.direction.y += self.gravity/2*dt
+            else:
+                self.direction.y = 0
         self.collision('vertical')
         if self.on_surface['roof']:
             self.direction.y = 20
 
         if self.jump:
-            if self.on_surface["floor"]:  #JUMP NORMAL
+            if self.on_surface["floor"] or self.platform:  #JUMP NORMAL
                 #print("z")
                 self.direction.y = - self.jump_height
-                self.rect.bottom -= 1
+                self.rect.bottom -= 3
+                
             elif any((self.on_surface['right'], self.on_surface['left'])) and not self.on_surface["floor"] and not self.timers["time before wall jump"].active:  #WALL JUMP
                 print("#"*99)
                 self.timers["wall jump"].activate()
@@ -166,6 +203,8 @@ class Player(pygame.sprite.Sprite):
                         self.direction.y = 0
                     if self.rect.top <= sprite.rect.bottom and self.old_rect.top >= sprite.old_rect.bottom: #en heut
                         self.rect.top = sprite.rect.bottom
+                        if hasattr(sprite, 'moving'):
+                            self.rect.y +=6
            
                 
     def uptate_timer(self):
@@ -180,6 +219,7 @@ class Player(pygame.sprite.Sprite):
         self.uptate_timer()
         #séxacute a chaque toursde boucle
         self.input()
+        self.controller_input()
         #print(self.direction)
         self.move(dt)
         
@@ -194,6 +234,7 @@ class Player(pygame.sprite.Sprite):
         
         #print(   self.timers["time before wall jump"].active   )
         #print(self.arrivée_paroie)
+        print(self.platform)
         
         
         
