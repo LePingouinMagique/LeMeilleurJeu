@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
         # self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
         # self.image.fill('yellow') 
         #self.image = pygame.image.load(join('graphics','player','idle','0.png'))
-        self.image = pygame.image.load(join('data','TEST','New Piskel.png'))
+        self.image = pygame.image.load(join('data','TEST','0 (1).png'))
         #rects
         self.rect = self.image.get_frect(topleft = pos)
         self.hitbox_rect = self.rect.inflate(-76,-36)
@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
         
         #mouv
         self.direction = vector(0,0)
-        self.speed = 230 #200
+        self.speed = 450 #200
         self.gravity = 1900
         self.jump = False
         self.jump_height = 1000
@@ -108,7 +108,7 @@ class Player(pygame.sprite.Sprite):
             self.timers["jump"].activate()
             self.jump = True
         if keys[pygame.K_g]:
-            self.rect.x , self.rect.y = 652 , 330
+            self.hitbox_rect.x , self.hitbox_rect.y = 652 , 330
             self.direction.y = 0
             
     def move(self,dt):
@@ -173,10 +173,10 @@ class Player(pygame.sprite.Sprite):
         left_rect = pygame.Rect(self.hitbox_rect.topleft + vector(-2, self.hitbox_rect.height /4 ) , (2, self.hitbox_rect.height/2))  #Les deux rectangles sur les cotés du joueur
         roof_rect = pygame.Rect(self.hitbox_rect.topleft + vector(0,-2),(self.hitbox_rect.width, 2))
         #drawing colision rectangle 
-        pygame.draw.rect(self.display_surface, "red", floor_rect)
-        pygame.draw.rect(self.display_surface, "red", right_rect)
-        pygame.draw.rect(self.display_surface, "red", left_rect)
-        pygame.draw.rect(self.display_surface, "red", roof_rect)
+        # pygame.draw.rect(self.display_surface, "red", floor_rect)
+        # pygame.draw.rect(self.display_surface, "red", right_rect)
+        # pygame.draw.rect(self.display_surface, "red", left_rect)
+        # pygame.draw.rect(self.display_surface, "red", roof_rect)
         
         collide_rects_list = [sprite.rect for sprite in self.collision_sprites]
         
