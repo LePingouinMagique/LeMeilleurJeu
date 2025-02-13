@@ -17,10 +17,23 @@ class Level:
         self.setup(tmx_map)
         
     def setup(self,tmx_map):
-        #tiles
-        for x,y,surf in tmx_map.get_layer_by_name('Terrain').tiles(): # prens les positions x,y et la surface de chaque tuile du calque "Terrain"
-            Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,(self.all_sprites,self.collision_sprites))
-            
+        
+        for layer in ['BG','Terrain','FG','Platforms']:
+            #tiles
+            for x,y,surf in tmx_map.get_layer_by_name(layer).tiles(): # prens les positions x,y et la surface de chaque tuile du calque "Terrain"
+                
+                groups = [self.all_sprites]
+                if layer == 'Terrain': groups.append(self.collision_sprites)    # sprite avec les quels il y a de la collision !
+                if layer == 'Platforms': groups.append(self.collision_sprites)
+                #Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,(self.all_sprites,self.collision_sprites))
+                Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups)
+                
+        # for obj in tmx_map.get_layer_by_name('hite'):
+        #     groups = [self.all_sprites, self.collision_sprites]  # Collision activée
+        #     zz = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
+        #     Sprite((obj.x, obj.y), zz, groups)  # Position et image de l'objet
+        
+        
         for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
             if obj.name == "player":
                 # print(obj.x)

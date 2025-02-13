@@ -149,7 +149,7 @@ class Player(pygame.sprite.Sprite):
                 self.hitbox_rect.bottom -= 3
                 
             elif any((self.on_surface['right'], self.on_surface['left'])) and not self.on_surface["floor"] and not self.timers["time before wall jump"].active:  #WALL JUMP
-                print("#"*99)
+                #print("#"*99)
                 self.timers["wall jump"].activate()
                 
                 self.direction.y = - self.jump_height
