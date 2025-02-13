@@ -6,9 +6,9 @@ from os.path import join
 class Player(pygame.sprite.Sprite): 
     def __init__(self,pos,groups,collision_sprites): 
         super().__init__(groups) 
-        # self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
-        # self.image.fill('yellow') 
-        self.image = pygame.image.load(join('graphics','player','idle','0.png'))
+        self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
+        self.image.fill('yellow') 
+        #self.image = pygame.image.load(join('graphics','player','idle','0.png'))
         
         #rects
         self.rect = self.image.get_frect(topleft = pos)
@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         
         #mouv
         self.direction = vector(0,0)
-        self.speed = 300 #200
+        self.speed = 230 #200
         self.gravity = 1900
         self.jump = False
         self.jump_height = 1000
@@ -48,14 +48,15 @@ class Player(pygame.sprite.Sprite):
         
         #TEST######################
         # Initialisation de la manette
-        pygame.joystick.init()
-        if pygame.joystick.get_count() > 0:
-            self.joystick = pygame.joystick.Joystick(0)
-            self.joystick.init()
-            print(f"Manette détectée : {self.joystick.get_name()}")
-        else:
-            self.joystick = None
-            print("⚠️ Aucune manette détectée !")
+        if MANNETTE :
+            pygame.joystick.init()
+            if pygame.joystick.get_count() > 0:
+                self.joystick = pygame.joystick.Joystick(0)
+                self.joystick.init()
+                print(f"Manette détectée : {self.joystick.get_name()}")
+            else:
+                self.joystick = None
+                print("⚠️ Aucune manette détectée !")
         ##########################
 
     def controller_input(self):
@@ -77,6 +78,9 @@ class Player(pygame.sprite.Sprite):
         if self.joystick.get_button(1) and not self.timers["jump"].active:
             self.timers["jump"].activate()
             self.jump = True
+        elif self.joystick.get_button(0):
+            self.rect.x , self.rect.y = 652 , 330
+
     
         
     def input(self):
@@ -101,7 +105,8 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and not self.timers["jump"].active:
             self.timers["jump"].activate()
             self.jump = True
-
+        if keys[pygame.K_g]:
+            self.rect.x , self.rect.y = 652 , 330
             
     def move(self,dt):
         #horizontal
@@ -193,17 +198,20 @@ class Player(pygame.sprite.Sprite):
                     #left collision
                     #print("overlap")
                     
-                    if self.rect.left <= sprite.rect.right and int(self.old_rect.left) >= sprite.old_rect.right: #gauche
+                    if self.rect.left <= sprite.rect.right and self.old_rect.left >= sprite.old_rect.right: #gauche
                         self.rect.left = sprite.rect.right
+                        if hasattr(sprite, 'moving'):
+                            self.rect.x +=4
                         
-                    if self.rect.right >= sprite.rect.left and int(self.old_rect.right) <= sprite.old_rect.left: #droite
+                    if self.rect.right >= sprite.rect.left and self.old_rect.right <= sprite.old_rect.left: #droite
                         self.rect.right = sprite.rect.left
-    
+                        if hasattr(sprite, 'moving'):
+                            self.rect.x -=4
                 else:
-                    if self.rect.bottom >= sprite.rect.top and int(self.old_rect.bottom) <= sprite.old_rect.top: #en bas
+                    if self.rect.bottom >= sprite.rect.top and self.old_rect.bottom <= sprite.old_rect.top: #en bas
                         self.rect.bottom = sprite.rect.top
                         self.direction.y = 0
-                    if self.rect.top <= sprite.rect.bottom and int(self.old_rect.top) >= sprite.old_rect.bottom: #en heut
+                    if self.rect.top <= sprite.rect.bottom and self.old_rect.top >= sprite.old_rect.bottom: #en heut
                         self.rect.top = sprite.rect.bottom
                         if hasattr(sprite, 'moving'):
                             self.rect.y +=6
@@ -221,7 +229,9 @@ class Player(pygame.sprite.Sprite):
         self.uptate_timer()
         #séxacute a chaque toursde boucle
         self.input()
-        self.controller_input()
+        if MANNETTE:
+            self.controller_input()
+        
         #print(self.direction)
         self.move(dt)
         
@@ -236,7 +246,7 @@ class Player(pygame.sprite.Sprite):
         
         #print(   self.timers["time before wall jump"].active   )
         #print(self.arrivée_paroie)
-        print(self.platform)
+        
         
         
         
