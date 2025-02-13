@@ -6,7 +6,7 @@ TITLE = 'game001'
 MAX_FPS = 2000
 TILE_SIZE = 64 # size of tuiles
 ANIMATION_SPEED = 6
-MANNETTE = False
+MANNETTE = True
 
 # layers 
 Z_LAYERS = {

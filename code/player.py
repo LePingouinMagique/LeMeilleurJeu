@@ -80,6 +80,7 @@ class Player(pygame.sprite.Sprite):
             self.jump = True
         elif self.joystick.get_button(0):
             self.rect.x , self.rect.y = 652 , 330
+            self.direction.y = 0
 
     
         
@@ -107,6 +108,7 @@ class Player(pygame.sprite.Sprite):
             self.jump = True
         if keys[pygame.K_g]:
             self.rect.x , self.rect.y = 652 , 330
+            self.direction.y = 0
             
     def move(self,dt):
         #horizontal
