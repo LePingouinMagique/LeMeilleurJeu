@@ -17,9 +17,13 @@ class Level:
         self.setup(tmx_map)
         
     def setup(self,tmx_map):
-        for obj in tmx_map.get_layer_by_name("Objects2"):
-            if obj.type == "solid":
-                Wall((obj.x, obj.y), (obj.width, obj.height), [self.all_sprites, self.collision_sprites])
+        for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
+            if obj.name == "player":
+                # print(obj.x)
+                # print(obj.y)
+                self.player = Player((obj.x,obj.y),self.all_sprites, self.collision_sprites)
+
+        
         
         for layer in ['BG','Terrain','FG','Platforms']:
             #tiles
@@ -29,7 +33,8 @@ class Level:
                 if layer == 'Terrain': groups.append(self.collision_sprites)    # sprite avec les quels il y a de la collision !
                 #if layer == 'Platforms': groups.append(self.collision_sprites)
                 #Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,(self.all_sprites,self.collision_sprites))
-                Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups)
+                z = Z_LAYERS['bg tiles']
+                Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups,z)
                 
         # for obj in tmx_map.get_layer_by_name('hite'):
         #     groups = [self.all_sprites, self.collision_sprites]  # Collision activée
@@ -42,11 +47,6 @@ class Level:
             
             
         
-        for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
-            if obj.name == "player":
-                # print(obj.x)
-                # print(obj.y)
-                self.player = Player((obj.x,obj.y),self.all_sprites, self.collision_sprites)
 
         #moving objects
         for obj in tmx_map.get_layer_by_name('Moving Objects'):
@@ -71,6 +71,9 @@ class Level:
         # Chargement des objets solides du calque "Objects2"
         
 
+            for obj in tmx_map.get_layer_by_name("Objects2"):
+                if obj.type == "solid":
+                    Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
 
 
     def run(self,dt):

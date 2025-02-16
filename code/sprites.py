@@ -2,12 +2,13 @@ from settings import *
 
 
 class Sprite(pygame.sprite.Sprite): #pour chaque sprite du groupe qu'on lui donne
-    def __init__(self, pos, surf = pygame.Surface((TILE_SIZE,TILE_SIZE)), groups = None):
+    def __init__(self, pos, surf = pygame.Surface((TILE_SIZE,TILE_SIZE)), groups = None, z = Z_LAYERS['main']):
         super().__init__(groups)
         self.image = surf #cration d'uen nouvelle surface
         
         self.rect = self.image.get_frect(topleft = pos)
         self.old_rect = self.rect.copy()
+        self.z = z
 
 
 class Wall(pygame.sprite.Sprite):
@@ -17,7 +18,7 @@ class Wall(pygame.sprite.Sprite):
         #self.image.fill((255, 0, 0, 100))  # Red semi-transparent for debugging
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
-        print(self.rect)
+        #print(self.rect)
 
 
 

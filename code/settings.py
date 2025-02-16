@@ -3,12 +3,19 @@ from pygame.math import Vector2 as vector
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1600,900
 TITLE = 'game001'
-MAX_FPS = 2000
+MAX_FPS = 200
 TILE_SIZE = 64 # size of tuiles
 ANIMATION_SPEED = 6
 MANNETTE = False
 
 # layers 
 Z_LAYERS = {
-	
+	'bg':0,
+    'clouds':1,
+    'bg tiles':2,
+    'path':3,
+    'bg details':4,
+    'main':5,
+    'water':6,
+    'fg':7
 }
