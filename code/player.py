@@ -4,17 +4,21 @@ from os.path import join
 
 
 class Player(pygame.sprite.Sprite): 
-    def __init__(self,pos,groups,collision_sprites): 
+    def __init__(self,pos,groups,collision_sprites, frames): 
+        #general setup
         super().__init__(groups) 
-        # self.image = pygame.Surface((48,56)) #cration d'uen nouvelle surface 
-        # self.image.fill('yellow') 
-        #self.image = pygame.image.load(join('graphics','player','idle','0.png'))
-        self.image = pygame.image.load(join('data','TEST','0 (1).png'))
+        self.z = Z_LAYERS['main']
+        
+        #image
+        self.frames, self.frames_index = frames, 0
+        self.state , self.facing_right = 'idle', True
+        self.image = self.frames[self.state][self.frames_index]
+        
         #rects
         self.rect = self.image.get_frect(topleft = pos)
         self.hitbox_rect = self.rect.inflate(-76,-36)
         self.old_rect = self.hitbox_rect.copy()
-        self.z = Z_LAYERS['main']
+        
         #mouv
         self.direction = vector(0,0)
         self.speed = 450 #200
@@ -22,6 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.jump = False
         self.jump_height = 1000
         self.wall_jump_power = 1.2
+        self.attacking = False
         
         self.arrivée_paroie = 0   #cette variable permet d'utiliser un cooldown (wall jump => un peu de glissade avant) lorsque que lon retouche une paroie (cad avant que  on en touche)
                                     # 0=> pas sur une paroie
@@ -94,8 +99,14 @@ class Player(pygame.sprite.Sprite):
             if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
                 #print("right")
                 input_vector.x +=1
+                self.facing_right = True
+                
             if keys[pygame.K_LEFT] or keys[pygame.K_q]:
                 input_vector.x -=1
+                self.facing_right = False
+            
+            if keys[pygame.K_v]:
+                self.attack()
                 
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
 
@@ -110,6 +121,10 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_g]:
             self.hitbox_rect.x , self.hitbox_rect.y = 652 , 330
             self.direction.y = 0
+           
+    def attack(self):
+        self.attacking = True
+        self.frames_index = 0
             
     def move(self,dt):
         #horizontal
@@ -225,6 +240,28 @@ class Player(pygame.sprite.Sprite):
             timer.update() #update chaque timer pour le joueur
         
          
+    def animate(self,dt):
+        self.frames_index += ANIMATION_SPEED * dt
+        if self.state == 'attack' and self.frames_index >= len(self.frames[self.state]):
+            self.state = 'idle'
+        self.image = self.frames[self.state][int(self.frames_index % len(self.frames[self.state]))]
+        self.image = self.image if self.facing_right else pygame.transform.flip(self.image,True,False)
+    
+    def get_state(self):
+        if self.on_surface['floor']:
+            if self.attacking:
+                self.state = 'attack'
+            else:
+                self.state = 'idle' if self.direction.x == 0 else 'run'
+        else:
+            if self.attacking:
+                self.state = 'air_attack'
+            else:
+                if any((self.on_surface['left'], self.on_surface['right'])):
+                    self.state = 'wall'
+                else:
+                    self.state = 'jump' if self.direction.y < 0 else 'fall'
+             
     def update(self,dt):
         
         self.old_rect = self.hitbox_rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
@@ -242,7 +279,8 @@ class Player(pygame.sprite.Sprite):
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
         self.check_contact()
 
-        
+        self.get_state()
+        self.animate(dt)
     
         #print(self.timers['wall jump'].active)
         #print(self.direction)

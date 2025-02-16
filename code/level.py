@@ -1,5 +1,5 @@
 from settings import *
-from sprites import Sprite, MovingSprite, Wall
+from sprites import Sprite, MovingSprite, Wall, AnimatedSprite
 from player import Player
 from groups import AllSprites
 
@@ -19,12 +19,22 @@ class Level:
     def setup(self,tmx_map, level_frames):
         for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
             if obj.name == "player":
-                # print(obj.x)
-                # print(obj.y)
-                self.player = Player((obj.x,obj.y),self.all_sprites, self.collision_sprites)
+                
+                self.player = Player(
+                    pos=(obj.x,obj.y),
+                    groups=self.all_sprites, 
+                    collision_sprites=self.collision_sprites,
+                    frames = level_frames['player'])
+                
+                
+                
             else:
                 if obj.name in ('barrel','crate'): #object pas animéeée => one only imâge
                     Sprite((obj.x,obj.y),obj.image, (self.all_sprites, self.collision_sprites))
+                else: #objects avec plusieurs images
+                    if 'palm' not in obj.name:
+                        frames = level_frames[obj.name]
+                        AnimatedSprite((obj.x,obj.y),frames,self.all_sprites)
                     
 
         
