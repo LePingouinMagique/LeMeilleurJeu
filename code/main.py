@@ -2,6 +2,7 @@ from settings import *
 from level import Level
 from pytmx.util_pygame import load_pygame
 from os.path import join
+from support import *
 
 class Game:
 	def __init__(self):
@@ -12,11 +13,18 @@ class Game:
 		self.clock = pygame.time.Clock()
 
 		self.tmx_map = {0:load_pygame(join('data','levels','omni2.tmx'))} #liste qui charge toute les cartes "join('..')"
-  
-		self.current_stage = Level(self.tmx_map[0])
+		self.import_assets()
+		self.current_stage = Level(self.tmx_map[0],self.level_frames)
+		
 		
 		# print(self.tmx_map)
 		#bg
+  
+	def import_assets(self):
+		self.level_frames = {
+			'flag': import_folder('graphics','level','flag')
+		}
+		print(self.level_frames)
 
 	def run(self):
 		while True:

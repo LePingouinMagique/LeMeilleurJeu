@@ -4,7 +4,7 @@ from player import Player
 from groups import AllSprites
 
 class Level:
-    def __init__(self, tmx_map):  # prndsen paramètre une carte à l'appelle
+    def __init__(self, tmx_map, level_frames):  # prndsen paramètre une carte à l'appelle
         self.diplay_surface = pygame.display.get_surface()
         
         #groups
@@ -14,14 +14,18 @@ class Level:
         
         
         #######
-        self.setup(tmx_map)
+        self.setup(tmx_map, level_frames)
         
-    def setup(self,tmx_map):
+    def setup(self,tmx_map, level_frames):
         for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
             if obj.name == "player":
                 # print(obj.x)
                 # print(obj.y)
                 self.player = Player((obj.x,obj.y),self.all_sprites, self.collision_sprites)
+            else:
+                if obj.name in ('barrel','crate'): #object pas animéeée => one only imâge
+                    Sprite((obj.x,obj.y),obj.image, (self.all_sprites, self.collision_sprites))
+                    
 
         
         
@@ -32,22 +36,17 @@ class Level:
                 groups = [self.all_sprites]
                 if layer == 'Terrain': groups.append(self.collision_sprites)    # sprite avec les quels il y a de la collision !
                 #if layer == 'Platforms': groups.append(self.collision_sprites)
-                #Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,(self.all_sprites,self.collision_sprites))
-                z = Z_LAYERS['bg tiles']
+                
+                match layer:
+                    case 'BG':
+                        z = Z_LAYERS['bg tiles']
+                    case 'FG':
+                        z = Z_LAYERS['fg']
+                    case _ :
+                        z = Z_LAYERS["main"]
                 Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups,z)
                 
-        # for obj in tmx_map.get_layer_by_name('hite'):
-        #     groups = [self.all_sprites, self.collision_sprites]  # Collision activée
-        #     zz = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
-        #     Sprite((obj.x, obj.y), zz, groups)  # Position et image de l'objet
         
-        
-        
-        
-            
-            
-        
-
         #moving objects
         for obj in tmx_map.get_layer_by_name('Moving Objects'):
             #1)  Movings platforms
@@ -63,17 +62,10 @@ class Level:
                 speed = obj.properties['speed']
                 MovingSprite((self.all_sprites,self.collision_sprites), start_pos, end_pos, move_dir, speed)
 
-        # self.walls = []
-        # for obj in tmx_map.get_layer_by_name("Objects2"):
-        #     print(obj.type)
-        #     if obj.type == 'solid':
-        #         self.walls.append(pygame.Rect(obj.x,obj.y,obj.width,obj.height))
-        # Chargement des objets solides du calque "Objects2"
         
-
-            for obj in tmx_map.get_layer_by_name("Objects2"):
-                if obj.type == "solid":
-                    Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
+        for obj in tmx_map.get_layer_by_name("Objects2"):
+            if obj.type == "solid":
+                Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
 
 
     def run(self,dt):
