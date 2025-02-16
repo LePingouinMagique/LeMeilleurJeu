@@ -7,8 +7,18 @@ class Sprite(pygame.sprite.Sprite): #pour chaque sprite du groupe qu'on lui donn
         self.image = surf #cration d'uen nouvelle surface
         
         self.rect = self.image.get_frect(topleft = pos)
-        
         self.old_rect = self.rect.copy()
+
+
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, pos, size, groups):
+        super().__init__(groups)
+        self.image = pygame.Surface(size)
+        #self.image.fill((255, 0, 0, 100))  # Red semi-transparent for debugging
+        self.rect = self.image.get_frect(topleft=pos)
+        self.old_rect = self.rect.copy()
+        print(self.rect)
+
 
 
 class MovingSprite(Sprite):

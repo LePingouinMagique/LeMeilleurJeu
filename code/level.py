@@ -1,5 +1,5 @@
 from settings import *
-from sprites import Sprite, MovingSprite
+from sprites import Sprite, MovingSprite, Wall
 from player import Player
 from groups import AllSprites
 
@@ -17,6 +17,9 @@ class Level:
         self.setup(tmx_map)
         
     def setup(self,tmx_map):
+        for obj in tmx_map.get_layer_by_name("Objects2"):
+            if obj.type == "solid":
+                Wall((obj.x, obj.y), (obj.width, obj.height), [self.all_sprites, self.collision_sprites])
         
         for layer in ['BG','Terrain','FG','Platforms']:
             #tiles
@@ -24,7 +27,7 @@ class Level:
                 
                 groups = [self.all_sprites]
                 if layer == 'Terrain': groups.append(self.collision_sprites)    # sprite avec les quels il y a de la collision !
-                if layer == 'Platforms': groups.append(self.collision_sprites)
+                #if layer == 'Platforms': groups.append(self.collision_sprites)
                 #Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,(self.all_sprites,self.collision_sprites))
                 Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups)
                 
@@ -33,6 +36,11 @@ class Level:
         #     zz = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
         #     Sprite((obj.x, obj.y), zz, groups)  # Position et image de l'objet
         
+        
+        
+        
+            
+            
         
         for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
             if obj.name == "player":
@@ -55,7 +63,14 @@ class Level:
                 speed = obj.properties['speed']
                 MovingSprite((self.all_sprites,self.collision_sprites), start_pos, end_pos, move_dir, speed)
 
-                
+        # self.walls = []
+        # for obj in tmx_map.get_layer_by_name("Objects2"):
+        #     print(obj.type)
+        #     if obj.type == 'solid':
+        #         self.walls.append(pygame.Rect(obj.x,obj.y,obj.width,obj.height))
+        # Chargement des objets solides du calque "Objects2"
+        
+
 
 
     def run(self,dt):
