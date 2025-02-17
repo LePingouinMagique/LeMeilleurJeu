@@ -35,13 +35,13 @@ class Wall(pygame.sprite.Sprite):
 
 
 
-class MovingSprite(Sprite):
-    def __init__(self, groups, start_pos, end_pos, move_dir, speed):
-        surf = pygame.Surface((200,50))
-        super().__init__(start_pos,surf, groups)
-        self.image.fill('white')
+class MovingSprite(AnimatedSprite):
+    def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed):
+        
+        super().__init__(start_pos,frames, groups)
+        
         if move_dir == 'x':
-            self.midleft = start_pos
+            self.rect.midleft = start_pos
         else:
             self.rect.midtop = start_pos
         self.start_pos = start_pos
@@ -73,6 +73,7 @@ class MovingSprite(Sprite):
         self.old_rect = self.rect.copy()
         self.rect.topleft += self.direction * self.speed *dt
         self.check_border()
+        self.animate(dt)
 
 
   

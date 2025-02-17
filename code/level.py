@@ -69,17 +69,30 @@ class Level:
         #moving objects
         for obj in tmx_map.get_layer_by_name('Moving Objects'):
             #1)  Movings platforms
-            if obj.name == 'helicopter':
+            if obj.name == 'spike':
+                pass
+            else:
+                frames = level_frames[obj.name]
+                #print(frames)
+                groups = (self.all_sprites, self.collision_sprites) if obj.properties['platform'] else (self.all_sprites) #self.damage_sprite ))
                 if obj.width > obj.height: #horizontal
                     move_dir = 'x'
-                    start_pos = (obj.x,  obj.y + obj.height /2)
+                    start_pos = (obj.x,  obj.y + obj.height/2 )
                     end_pos = (obj.x + obj.width, obj.y + obj.height /2 )
                 else: #vertical
                     move_dir = 'y'
                     start_pos = (obj.x + obj.width/2,  obj.y)
                     end_pos = (obj.x + obj.width/2, obj.y + obj.height )
                 speed = obj.properties['speed']
-                MovingSprite((self.all_sprites,self.collision_sprites), start_pos, end_pos, move_dir, speed)
+                MovingSprite(frames, groups, start_pos, end_pos, move_dir, speed)
+                
+                if obj.name == 'saw':
+                    if move_dir == 'x':
+                        y = start_pos[1]
+                        left, right = int(start_pos[0]), int(end_pos[0])
+                        for x in range(left,right,20):
+                            Sprite((obj.x+x,obj.y),level_frames["saw_chain"],self.all_sprites,z = 2)
+                            
 
         
         for obj in tmx_map.get_layer_by_name("Objects2"):
@@ -91,6 +104,7 @@ class Level:
         self.diplay_surface.fill('black')
         self.all_sprites.update(dt)
         self.all_sprites.draw(self.player.hitbox_rect.center)
+        
         
         
         
