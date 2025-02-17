@@ -48,7 +48,8 @@ class Player(pygame.sprite.Sprite):
         self.timers = {
             'wall jump': Timer(270), # durée de la propulsion d'un wall jump
             'time before wall jump':Timer(100),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
-            'jump':Timer(200)  # latence entre chaque jump (indépendant de wall juump)
+            'jump':Timer(200),  # latence entre chaque jump (indépendant de wall juump)
+            'attack block': Timer(500)
         }
         
         
@@ -123,8 +124,10 @@ class Player(pygame.sprite.Sprite):
             self.direction.y = 0
            
     def attack(self):
-        self.attacking = True
-        self.frames_index = 0
+        if not self.timers['attack block'].active:
+            self.attacking = True
+            self.frames_index = 0
+            self.timers['attack block'].activate()
             
     def move(self,dt):
         #horizontal
@@ -247,6 +250,8 @@ class Player(pygame.sprite.Sprite):
         self.image = self.frames[self.state][int(self.frames_index % len(self.frames[self.state]))]
         self.image = self.image if self.facing_right else pygame.transform.flip(self.image,True,False)
     
+        if self.attacking and self.frames_index >= len(self.frames[self.state]):
+            self.attacking = False
     def get_state(self):
         if self.on_surface['floor']:
             if self.attacking:

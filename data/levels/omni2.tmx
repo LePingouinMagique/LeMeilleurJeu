@@ -237,8 +237,8 @@
   <object id="50" name="candle" gid="231" x="1411" y="504.5" width="64" height="64"/>
   <object id="51" name="window" gid="232" x="1560.5" y="424.5" width="64" height="64"/>
   <object id="52" name="window" gid="232" x="1208.5" y="438.5" width="64" height="64"/>
-  <object id="53" name="big_chain" gid="233" x="1344" y="438" width="64" height="116"/>
-  <object id="54" name="small_chain" gid="234" x="1434.67" y="382.333" width="64" height="62"/>
+  <object id="53" name="big_chains" gid="233" x="1344" y="438" width="64" height="116"/>
+  <object id="54" name="small_chains" gid="234" x="1434.67" y="382.333" width="64" height="62"/>
   <object id="55" name="static" gid="235" x="1381" y="574" width="14" height="34"/>
   <object id="56" name="static" gid="236" x="1582.67" y="575" width="30" height="14"/>
   <object id="57" name="static" gid="237" x="1309.67" y="575" width="14" height="28"/>

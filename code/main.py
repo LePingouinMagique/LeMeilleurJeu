@@ -28,9 +28,9 @@ class Game:
 			'palms': import_sub_folders('graphics','level','palms'),
 			'candle': import_folder('graphics','level','candle'),
 			'window':import_folder('graphics','level','window'),
-   			'big_chain':import_folder('graphics','level','big_chain'),
+   			'big_chains':import_folder('graphics','level','big_chains'),
 			'small_chains':import_folder('graphics','level','small_chains'),
-   			'candle light':import_folder('graphics','level','candle light'),
+   			'candle_light':import_folder('graphics','level','candle light'),
 			'player': import_sub_folders('graphics','player')
 		}
 		print(self.level_frames["player"])

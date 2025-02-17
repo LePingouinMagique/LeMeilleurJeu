@@ -32,11 +32,19 @@ class Level:
                 if obj.name in ('barrel','crate'): #object pas animéeée => one only imâge
                     Sprite((obj.x,obj.y),obj.image, (self.all_sprites, self.collision_sprites))
                 else: #objects avec plusieurs images
-                    if 'palm' not in obj.name:
-                        frames = level_frames[obj.name]
-                        AnimatedSprite((obj.x,obj.y),frames,self.all_sprites)
                     
-
+                    frames = frames = level_frames[obj.name] if not 'palm' in obj.name else level_frames['palms'][obj.name]
+                    AnimatedSprite((obj.x,obj.y),frames,self.all_sprites)
+                    
+                    
+        for obj in tmx_map.get_layer_by_name('BG details'):
+            if obj.name == 'static':
+                Sprite((obj.x, obj.y), obj.image, self.all_sprites, z = Z_LAYERS['bg tiles']+1)
+            else:
+                if obj.name == 'candle':
+                    AnimatedSprite((obj.x, obj.y) + vector(-20,-20), level_frames['candle_light'], self.all_sprites, Z_LAYERS['bg tiles']+2)
+                
+                AnimatedSprite((obj.x, obj.y), level_frames[obj.name], self.all_sprites,z = Z_LAYERS['bg tiles'] + 1)
         
         
         for layer in ['BG','Terrain','FG','Platforms']:
@@ -51,10 +59,11 @@ class Level:
                     case 'BG':
                         z = Z_LAYERS['bg tiles']
                     case 'FG':
-                        z = Z_LAYERS['fg']
+                        z = Z_LAYERS['bg tiles']
                     case _ :
-                        z = Z_LAYERS["main"]
+                        z = Z_LAYERS["main"] -1
                 Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups,z)
+                
                 
         
         #moving objects
