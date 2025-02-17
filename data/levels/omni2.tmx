@@ -1020,10 +1020,10 @@
   </object>
   <object id="139" name="spike" gid="227" x="1915" y="1617" width="54" height="54">
    <properties>
-    <property name="end_angle" type="int" value="180"/>
+    <property name="end_angle" type="int" value="-1"/>
     <property name="platform" type="bool" value="false"/>
-    <property name="radius" type="int" value="200"/>
-    <property name="speed" type="int" value="50"/>
+    <property name="radius" type="int" value="220"/>
+    <property name="speed" type="int" value="500"/>
     <property name="start_angle" type="int" value="0"/>
    </properties>
   </object>
