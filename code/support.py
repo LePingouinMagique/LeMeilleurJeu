@@ -7,7 +7,7 @@ def import_image(*path, alpha = True, format = 'png'):
 	return pygame.image.load(full_path).convert_alpha() if alpha else pygame.image.load(full_path).convert()
 
 def import_folder(*path):
-    print("hello")
+    
     frames = []
     for folder_path, subfolders, image_names in walk(join(*path)):
         for image_name in sorted(image_names, key = lambda name: int(name.split('.')[0])):

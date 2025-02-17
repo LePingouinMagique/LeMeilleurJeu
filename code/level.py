@@ -88,10 +88,10 @@ class Level:
                 
                 if obj.name == 'saw':
                     if move_dir == 'x':
-                        y = start_pos[1]
+                        y = start_pos[1] - level_frames["saw_chain"].get_height()
                         left, right = int(start_pos[0]), int(end_pos[0])
                         for x in range(left,right,20):
-                            Sprite((obj.x+x,obj.y),level_frames["saw_chain"],self.all_sprites,z = 2)
+                            Sprite((x,y),level_frames["saw_chain"],self.all_sprites,z = 2)
                             
 
         
