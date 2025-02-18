@@ -2,6 +2,7 @@ from settings import *
 from sprites import Sprite, MovingSprite, Wall, AnimatedSprite, Spike
 from player import Player
 from groups import AllSprites
+from enemies import Tooth, Shell
 
 class Level:
     def __init__(self, tmx_map, level_frames):  # prndsen paramètre une carte à l'appelle
@@ -11,6 +12,8 @@ class Level:
         self.all_sprites = AllSprites()
         
         self.collision_sprites = pygame.sprite.Group()
+        self.damage_sprites = pygame.sprite.Group()
+        self.tooth_sprites = pygame.sprite.Group()
         
         
         #######
@@ -77,7 +80,7 @@ class Level:
                     speed = obj.properties['speed'],
                     start_angle = obj.properties['start_angle'],
                     end_angle = obj.properties['end_angle'],
-                    groups= (self.all_sprites)  ## self.damage_sprite ))
+                    groups= (self.all_sprites,self.damage_sprites)  ##  ))
                 )
                 
                 for radius in range(0, obj.properties['radius'],20):
@@ -123,6 +126,16 @@ class Level:
         for obj in tmx_map.get_layer_by_name("Objects2"):
             if obj.type == "solid":
                 Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
+
+        
+        #enemies
+        for obj in tmx_map.get_layer_by_name('Enemies'):
+            if obj.name == 'tooth':
+                Tooth((obj.x,obj.y),level_frames['tooth'],(self.all_sprites,self.damage_sprites), self.collision_sprites)
+                
+            if obj.name == 'shell':
+                Shell((obj.x,obj.y),level_frames['shell'],(self.all_sprites,self.collision_sprites),obj.properties['reverse'])
+
 
 
     def run(self,dt):
