@@ -12,7 +12,7 @@ class Game:
 
 		self.clock = pygame.time.Clock()
 
-		self.tmx_map = {0:load_pygame(join('data','levels','omni2.tmx'))} #liste qui charge toute les cartes "join('..')"
+		self.tmx_map = {0:load_pygame(join('data','levels','4.tmx'))} #liste qui charge toute les cartes "join('..')"
 		self.import_assets()
 		self.current_stage = Level(self.tmx_map[0],self.level_frames)
 		

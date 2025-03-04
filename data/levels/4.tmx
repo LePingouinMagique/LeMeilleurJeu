@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="24" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="14" nextobjectid="245">
- <tileset firstgid="1" source="../../../reference/data/tilesets/outside.tsx"/>
- <tileset firstgid="49" source="../../../reference/data/tilesets/items.tsx"/>
- <tileset firstgid="54" source="../../../reference/data/tilesets/inside.tsx"/>
- <tileset firstgid="150" source="../../../reference/data/tilesets/extra.tsx"/>
- <tileset firstgid="216" source="../../../reference/data/tilesets/objects.tsx"/>
- <tileset firstgid="244" source="../../../reference/data/tilesets/platforms.tsx"/>
- <tileset firstgid="252" source="../../../reference/data/tilesets/enemies.tsx"/>
- <tileset firstgid="253" source="../../../reference/data/tilesets/grass.tsx"/>
+ <tileset firstgid="1" source="../../data/tilesets/outside.tsx"/>
+ <tileset firstgid="49" source="../../data/tilesets/items.tsx"/>
+ <tileset firstgid="54" source="../../data/tilesets/inside.tsx"/>
+ <tileset firstgid="150" source="../../data/tilesets/extra.tsx"/>
+ <tileset firstgid="216" source="../../data/tilesets/objects.tsx"/>
+ <tileset firstgid="244" source="../../data/tilesets/platforms.tsx"/>
+ <tileset firstgid="252" source="../../data/tilesets/enemies.tsx"/>
+ <tileset firstgid="253" source="../../data/tilesets/grass.tsx"/>
  <tileset firstgid="258" source="../tilesets/objects.tsx"/>
  <layer id="9" name="BG" width="24" height="30" visible="0">
   <data encoding="csv">

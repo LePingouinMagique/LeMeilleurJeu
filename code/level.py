@@ -122,10 +122,10 @@ class Level:
                             Sprite((x,y),level_frames["saw_chain"],self.all_sprites,z = 2)
                             
 
-        
-        for obj in tmx_map.get_layer_by_name("Objects2"):
-            if obj.type == "solid":
-                Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
+        if 1 ==2:
+            for obj in tmx_map.get_layer_by_name("Objects2"):
+                if obj.type == "solid":
+                    Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
 
         
         #enemies
