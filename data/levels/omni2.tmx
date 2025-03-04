@@ -1025,15 +1025,6 @@
     <property name="start_angle" type="int" value="0"/>
    </properties>
   </object>
-  <object id="143" name="spike" gid="227" x="3357" y="1597" width="54" height="54">
-   <properties>
-    <property name="end_angle" type="int" value="-1"/>
-    <property name="platform" type="bool" value="false"/>
-    <property name="radius" type="int" value="22000"/>
-    <property name="speed" type="int" value="500"/>
-    <property name="start_angle" type="int" value="0"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="7" name="Items" visible="0">
   <object id="22" name="diamond" gid="49" x="512" y="384" width="64" height="64"/>
