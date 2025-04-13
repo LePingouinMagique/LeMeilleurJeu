@@ -38,7 +38,7 @@ class Tooth(pygame.sprite.Sprite):
             
             
 class Shell(pygame.sprite.Sprite):
-    def __init__(self,pos,frames,groups,reverse = False):
+    def __init__(self,pos,frames,groups,reverse, player):
         super().__init__(groups)
         if reverse:
             #flip all frames in frames
@@ -50,9 +50,13 @@ class Shell(pygame.sprite.Sprite):
         else:
             self.frames = frames
             self.bullet_direction = 1
+        self.player = player
         self.frame_index = 0
         self.state = 'idle'
         self.image = self.frames[self.state][self.frame_index]
         self.rect = self.image.get_frect(topleft = pos)
         self.old_rect = self.rect.copy()
         self.z = Z_LAYERS['main']
+        
+        def state_management(self):
+            
