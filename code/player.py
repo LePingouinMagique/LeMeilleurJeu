@@ -1,13 +1,16 @@
-from settings import * 
+import pygame
+
+from settings import *
 from timer import Timer
 from os.path import join
-
+from math import sin
 
 class Player(pygame.sprite.Sprite): 
-    def __init__(self,pos,groups,collision_sprites, frames): 
+    def __init__(self,pos,groups,collision_sprites, frames,data):
         #general setup
         super().__init__(groups) 
         self.z = Z_LAYERS['main']
+        self.data = data
         
         #image
         self.frames, self.frames_index = frames, 0
@@ -49,7 +52,9 @@ class Player(pygame.sprite.Sprite):
             'wall jump': Timer(270), # durée de la propulsion d'un wall jump
             'time before wall jump':Timer(100),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
             'jump':Timer(200),  # latence entre chaque jump (indépendant de wall juump)
-            'attack block': Timer(500)
+            'attack block': Timer(500),
+            'hit': Timer(400),
+            'lose_health':Timer(1500)
         }
         
         
@@ -266,6 +271,18 @@ class Player(pygame.sprite.Sprite):
                     self.state = 'wall'
                 else:
                     self.state = 'jump' if self.direction.y < 0 else 'fall'
+
+    def get_damage(self):
+        if not self.timers['hit'].active and not self.timers['lose_health'].active:
+            self.data.health -= 1
+            self.timers['lose_health'].activate()
+            self.timers['hit'].activate()
+    def flicker(self):
+        if self.timers['hit'].active and sin(pygame.time.get_ticks() / 18)>=0: #pour que ça clignote
+            white_mask = pygame.mask.from_surface(self.image)
+            white_surf = white_mask.to_surface()
+            white_surf.set_colorkey('black')
+            self.image = white_surf
              
     def update(self,dt):
         
@@ -286,6 +303,7 @@ class Player(pygame.sprite.Sprite):
 
         self.get_state()
         self.animate(dt)
+        self.flicker()
     
         #print(self.timers['wall jump'].active)
         #print(self.direction)

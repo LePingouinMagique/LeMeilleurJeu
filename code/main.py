@@ -1,20 +1,27 @@
-from settings import * 
+import pygame
+
+from settings import *
 from level import Level
 from pytmx.util_pygame import load_pygame
 from os.path import join
 from support import *
+from data import Data
+from debug import debug
+from ui import UI
 
 class Game:
 	def __init__(self):
 		pygame.init()
 		self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 		pygame.display.set_caption(TITLE)
-
+		self.import_assets()
 		self.clock = pygame.time.Clock()
 
+		self.ui = UI(self.font,self.ui_frames)
+		self.data = Data(self.ui)
 		self.tmx_map = {0:load_pygame(join('data','levels','omni2.tmx'))} #liste qui charge toute les cartes "join('..')"
-		self.import_assets()
-		self.current_stage = Level(self.tmx_map[0],self.level_frames)
+
+		self.current_stage = Level(self.tmx_map[0],self.level_frames,self.data)
 		
 		
 		# print(self.tmx_map)
@@ -39,11 +46,16 @@ class Game:
 			'spike': import_image("graphics","enemies",'spike_ball','Spiked Ball'),
    			'spike_chain': import_image("graphics","enemies",'spike_ball','spiked_chain'),
 			'tooth':import_folder('graphics','enemies','tooth','run'),
-			'shell':import_sub_folders('graphics','enemies','shell')
-
-   
+			'shell':import_sub_folders('graphics','enemies','shell'),
+			'pearl': import_image('graphics','enemies','bullets','pearl'),
+			'items': import_sub_folders('graphics','items'),
+			'particle': import_folder('graphics','effects','particle')
 		}
 
+		self.font = pygame.font.Font(join('graphics','ui','runescape_uf.ttf'),40)
+		self.ui_frames = {
+			'heart' : import_folder('graphics','ui','heart')
+		}
 	def run(self):
 		while True:
 			dt = self.clock.tick(MAX_FPS) / 1000  #delta time en seconde permet e toujours avoir la même vitesse selon fps meme lower (gernre ça calcul fps + time execution)
@@ -59,7 +71,11 @@ class Game:
 						sys.exit()
 
 			self.current_stage.run(dt)
+			self.ui.update(dt)
+			#debug("health : "+ str(self.data.health) + '  coins : ' + str(self.data.coins))
+
 			pygame.display.update()
+
 
 if __name__ == '__main__':
 	game = Game()
