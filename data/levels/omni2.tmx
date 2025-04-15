@@ -8,9 +8,9 @@
  <tileset firstgid="244" source="../tilesets/platforms.tsx"/>
  <tileset firstgid="252" source="../tilesets/enemies.tsx"/>
  <tileset firstgid="253" source="../tilesets/grass.tsx"/>
- <tileset firstgid="258" source="../../../../../Desktop/Projet_NSI/22/data/tilesets/outside.tsx"/>
- <tileset firstgid="306" source="../../../../../Desktop/Projet_NSI/22/data/tilesets/grass.tsx"/>
- <tileset firstgid="311" source="../../../../../Desktop/Projet_NSI/22/data/tilesets/objects.tsx"/>
+ <tileset firstgid="258" source="../tilesets/outside.tsx"/>
+ <tileset firstgid="306" source="../tilesets/grass.tsx"/>
+ <tileset firstgid="311" source="../tilesets/objects.tsx"/>
  <objectgroup id="14" name="Objects2" class="solid">
   <object id="85" x="768.75" y="256.25" width="63.5" height="9.25"/>
   <object id="86" name="hit" type="solid" x="577" y="256" width="61.3333" height="12.6667" visible="0"/>
