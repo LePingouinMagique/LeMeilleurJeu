@@ -44,9 +44,10 @@ class AllSprites(pygame.sprite.Group):
             #small clouds
             #timer => cloud every 2.5 s.
             #random speed
-            self.cloud_timer = Timer(2500,self.create_small_clouds(), True)
+
+            self.cloud_timer = Timer(3500, func=self.create_small_clouds, repeat=True)
             self.cloud_timer.activate()
-            for cloud in range(20):
+            for cloud in range(10):
                 Cloud(pos = (randint(0,self.width),randint(self.borders['top'],self.horizon_line)),
                       surf = choice(self.small_cloud),
                       groups=self)
@@ -79,18 +80,17 @@ class AllSprites(pygame.sprite.Group):
             self.display_surface.blit(self.large_cloud,(left,top))
 
     def create_small_clouds(self):
-        print()
-        Cloud(pos=(self.width, randint(self.borders['top'], self.horizon_line)),
+        Cloud(pos=(self.width+60, randint(self.borders['top'], self.horizon_line)),
               surf=choice(self.small_cloud),
               groups=self)
 
     def draw(self,target_pos,dt):
-        self.cloud_timer.update()
+
         self.offset.x = -(target_pos[0] - WINDOW_WIDTH//2)
         self.offset.y = -(target_pos[1] - WINDOW_HEIGHT//2)
 
         self.camera_constraint()
-
+        self.cloud_timer.update()
         if self.sky:
             self.draw_sky()
         self.draw_large_cloud(dt)
