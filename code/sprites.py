@@ -1,7 +1,9 @@
-
+from numpy.core.memmap import dtypedescr
 
 from settings import *
 from math import sin,cos, radians
+from random import randint
+
 
 
 class Sprite(pygame.sprite.Sprite): #pour chaque sprite du groupe qu'on lui donne
@@ -155,4 +157,18 @@ class Spike(Sprite):
         y = self.center[1] + sin(radians(self.angle)) * self.radius
         x = self.center[0] + cos(radians(self.angle)) * self.radius
         self.rect.center = (x,y) 
-  
+
+
+
+class Cloud(Sprite):
+    def __init__(self,pos,surf,groups, z= Z_LAYERS['clouds']):
+        super().__init__(pos,surf,groups,z)
+        self.rect.midbottom = pos
+        self.speed = randint(20,100)
+        self.direcion = -1
+
+    def update(self,dt):
+        self.rect.x += self.direcion * self.speed * dt
+        if self.rect.right <=0:
+            self.kill()
+        

@@ -3,6 +3,7 @@ from sprites import AnimatedSprite
 
 from settings import *
 from random import randint
+from timer import Timer
 
 
 class UI:
@@ -17,8 +18,41 @@ class UI:
         self.hearth_frames = [pygame.transform.scale(i,(i.get_width()*zoom,i.get_height()*zoom)) for i in a]
         self.heart_surf_width = self.hearth_frames[0].get_width()
         self.heart_padding = 5
-        self.create_hearts(10)
 
+        #coins
+        self.coins_amount = 0
+        self.old_coins_amount = 0
+        self.add_coins_amount = 0
+        self.coins_timer = Timer(3500)
+        self.end_timer = False
+        self.pas = True
+        self.coin_surf = frames['coin']
+
+
+    def display_text(self):
+        if self.coins_timer.active:
+            text2_surf = self.font.render("+ "+str(self.add_coins_amount), False, 'white')
+            text2_rect = text2_surf.get_frect(topleft=(13, 34)).move(30, 30)
+            self.display_surf.blit(text2_surf, text2_rect)
+        elif self.end_timer:
+            self.coins_amount += 1 if self.pas else 0
+            self.pas = False if self.pas else True
+            if self.coins_amount == self.old_coins_amount + self.add_coins_amount:
+                self.end_timer = False
+
+        text_surf = self.font.render(str(self.coins_amount),False,'white')
+        text_rect = text_surf.get_frect(topleft = (13,34)).move(30,0)
+        self.display_surf.blit(text_surf, text_rect)
+        coin_rect = self.coin_surf.get_frect(center = text_rect.bottomleft).move(-22,-20)
+        self.display_surf.blit(self.coin_surf,coin_rect)
+
+    def show_coin(self,amount):
+        self.coins_timer.activate()
+        self.end_timer = True
+        self.old_coins_amount = self.coins_amount
+        self.add_coins_amount = amount-self.coins_amount
+
+        # self.coins_amount = amount
 
 
     def create_hearts(self,amount):
@@ -28,9 +62,12 @@ class UI:
             x =10 + heart*(self.heart_surf_width+ self.heart_padding)
             y=10
             Heart((x,y),self.hearth_frames,self.sprites)
+
     def update(self,dt):
+        self.coins_timer.update()
         self.sprites.update(dt)
         self.sprites.draw(self.display_surf)
+        self.display_text()
 
 
 class Heart(AnimatedSprite):
