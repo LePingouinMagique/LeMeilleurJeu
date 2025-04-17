@@ -9,7 +9,7 @@ from timer import Timer
 class AllSprites(pygame.sprite.Group):
     def __init__(self,width,height, clouds,horizon_line,bg_tile= None, top_limit = 0):
         super().__init__()
-        
+        self.bg_tiles = bg_tile
         self.display_surface = pygame.display.get_surface()
         self.offset = vector()
 
@@ -91,10 +91,12 @@ class AllSprites(pygame.sprite.Group):
         self.offset.y = -(target_pos[1] - WINDOW_HEIGHT//2)
 
         self.camera_constraint()
-        self.cloud_timer.update()
+        if not self.bg_tiles:
+            self.cloud_timer.update()
+            self.draw_large_cloud(dt)
         if self.sky:
             self.draw_sky()
-        self.draw_large_cloud(dt)
+
 
         for sprite in sorted(self,key = lambda sprite : sprite.z): #dessine selon lordre des layer donnée par Z_Layer
             offset_pos = sprite.rect.topleft + self.offset
