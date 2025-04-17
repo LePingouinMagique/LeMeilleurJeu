@@ -9,6 +9,7 @@ from timer import Timer
 class AllSprites(pygame.sprite.Group):
     def __init__(self,width,height, clouds,horizon_line,bg_tile= None, top_limit = 0):
         super().__init__()
+        
         self.display_surface = pygame.display.get_surface()
         self.offset = vector()
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.0" name="objects" tilewidth="156" tileheight="186" tilecount="29" columns="0">
+<tileset version="1.10" tiledversion="1.11.0" name="objects" tilewidth="156" tileheight="186" tilecount="30" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="../../graphics/objects/barrel.png" width="46" height="50"/>
@@ -90,5 +90,8 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0.208333" y="34.4454" width="62.7917" height="29.5546"/>
   </objectgroup>
+ </tile>
+ <tile id="29">
+  <image source="../../graphics/enemies/crow/walk/0.png" width="64" height="64"/>
  </tile>
 </tileset>

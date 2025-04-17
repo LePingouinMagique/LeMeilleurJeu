@@ -6,7 +6,7 @@ from settings import *
 from sprites import Sprite, MovingSprite, Wall, AnimatedSprite, Spike, Item, ParticleEffectSprite
 from player import Player
 from groups import AllSprites
-from enemies import Tooth, Shell, Pearl
+from enemies import Tooth, Shell, Pearl, Crow
 
 class Level:
     def __init__(self, tmx_map, level_frames, data, game): # prndsen paramètre une carte à l'appelle
@@ -170,6 +170,8 @@ class Level:
         for obj in tmx_map.get_layer_by_name('Enemies'):
             if obj.name == 'tooth':
                 Tooth((obj.x,obj.y),level_frames['tooth'],(self.all_sprites,self.damage_sprites,self.tooth_sprites ), self.collision_sprites)
+            if obj.name == 'crow':
+                Crow((obj.x, obj.y), level_frames['crow'],(self.all_sprites, self.damage_sprites, self.tooth_sprites), self.collision_sprites)
                 
             if obj.name == 'shell':
                 Shell(pos = (obj.x,obj.y),
@@ -219,10 +221,18 @@ class Level:
     def hit_collision(self):
         for sprite in self.damage_sprites:
             if sprite.rect.colliderect(self.player.hitbox_rect):
-                self.player.get_damage()
+                if hasattr(sprite,'tooth'):
+                    if sprite.dead == True:
+                        pass
+                    else:
+                        self.player.get_damage()
+                else:
+                    self.player.get_damage()
                 if hasattr(sprite, 'pearl'): #permet de détruire la perle
                     sprite.kill()
                     ParticleEffectSprite((sprite.rect.center), self.particle_frames, self.all_sprites)
+
+
 
     def item_collision(self):
         if self.item_sprites:
