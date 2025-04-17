@@ -8,6 +8,7 @@ MAX_FPS = 200
 TILE_SIZE = 64 # size of tuiles
 ANIMATION_SPEED = 6
 MANNETTE = False
+MAX_CACHED_MAPS = 3
 
 # layers 
 Z_LAYERS = {

@@ -9,7 +9,8 @@ from groups import AllSprites
 from enemies import Tooth, Shell, Pearl
 
 class Level:
-    def __init__(self, tmx_map, level_frames, data):  # prndsen paramètre une carte à l'appelle
+    def __init__(self, tmx_map, level_frames, data, game): # prndsen paramètre une carte à l'appelle
+        self.game = game
         self.diplay_surface = pygame.display.get_surface()
         self.data = data
 
@@ -36,6 +37,8 @@ class Level:
         self.tooth_sprites = pygame.sprite.Group()
         self.pearl_sprites = pygame.sprite.Group()
         self.item_sprites = pygame.sprite.Group()
+
+        self.transitions_rects = []
 
         
         
@@ -181,6 +184,11 @@ class Level:
         for obj in tmx_map.get_layer_by_name('Items'):
             Item(obj.name,(obj.x +TILE_SIZE/2,obj.y+ TILE_SIZE/2),level_frames['items'][obj.name],(self.all_sprites,self.item_sprites),self.data)
 
+        #transitions
+        for obj in tmx_map.get_layer_by_name('Transitions'):
+            rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+            transition = (rect,obj.name)
+            self.transitions_rects.append(transition)
 
         #water
         for obj in tmx_map.get_layer_by_name('Water'):
@@ -224,6 +232,11 @@ class Level:
                 ParticleEffectSprite((item_sprites[0].rect.center),self.particle_frames,self.all_sprites)
                 #print(item_sprites[0].item_type)
 
+    def level_transitions_check(self):
+        for transition in self.transitions_rects:
+            if transition[0].colliderect(self.player.hitbox_rect):
+                self.game.change_state(transition[1])
+
     def attack_collision(self):
         for target in self.pearl_sprites.sprites() + self.tooth_sprites.sprites():
             facing_target = (self.player.rect.centerx < target.rect.centerx and self.player.facing_right) or (self.player.rect.centerx > target.rect.centerx and not self.player.facing_right)
@@ -248,7 +261,7 @@ class Level:
 
     def run(self,dt):
         self.diplay_surface.fill('black')
-
+        self.level_transitions_check()
         self.all_sprites.update(dt)
         self.pearl_collision()
         self.hit_collision()

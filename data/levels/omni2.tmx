@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="90" height="25" tilewidth="64" tileheight="64" infinite="0" nextlayerid="15" nextobjectid="146">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="90" height="25" tilewidth="64" tileheight="64" infinite="0" nextlayerid="16" nextobjectid="149">
  <tileset firstgid="1" source="../tilesets/outside.tsx"/>
  <tileset firstgid="49" source="../tilesets/items.tsx"/>
  <tileset firstgid="54" source="../tilesets/inside.tsx"/>
@@ -13,11 +13,9 @@
   <object id="86" name="hit" type="solid" x="577" y="896" width="61.3333" height="12.6667" visible="0"/>
   <object id="87" x="769.333" y="768.667" width="62.3333" height="13.6667"/>
   <object id="89" x="1472" y="1152" width="128"/>
-  <object id="90" type="solid" x="1792.5" y="1070.67" width="190" height="21"/>
+  <object id="90" type="solid" x="1790.5" y="1030.67" width="190" height="21"/>
   <object id="92" type="solid" x="2049" y="960.333" width="191" height="14.3333"/>
   <object id="95" x="1436" y="1348"/>
-  <object id="96" type="slownest" x="1168" y="750" width="160" height="126"/>
-  <object id="97" x="1302" y="838"/>
   <object id="99" type="solid" x="1474" y="1152" width="189" height="21"/>
   <object id="100" type="solid" x="2366" y="957" width="68" height="18"/>
   <object id="101" type="solid" x="2050" y="768" width="64" height="21"/>
@@ -73,9 +71,9 @@
   <object id="61" name="static" gid="241" x="1498" y="1142" width="52" height="178"/>
   <object id="62" name="static" gid="242" x="1268.67" y="1141.33" width="52" height="178"/>
   <object id="63" name="static" gid="243" x="1094" y="1215" width="82" height="98"/>
-  <object id="145" x="1066" y="1123.83" width="108" height="19">
-   <text wrap="1">Bonjour Monde</text>
-  </object>
+ </objectgroup>
+ <objectgroup id="15" name="Transitions">
+  <object id="146" name="ship2" x="2772" y="916" width="148" height="100"/>
  </objectgroup>
  <layer id="1" name="Terrain" width="90" height="25">
   <data encoding="csv">
@@ -164,7 +162,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Objects">
+ <objectgroup id="4" name="Objects" visible="0">
   <object id="4" name="flag" gid="219" x="1664" y="896" width="68" height="186"/>
   <object id="6" name="crate" gid="218" x="494.5" y="1153.25" width="50" height="36"/>
   <object id="7" name="crate" gid="218" x="525.5" y="1117.25" width="50" height="36"/>
@@ -193,7 +191,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="13" name="Moving Objects">
+ <objectgroup id="13" name="Moving Objects" visible="0">
   <object id="66" name="boat" x="1790.67" y="1259.33" width="768" height="38">
    <properties>
     <property name="flip" type="bool" value="true"/>
@@ -253,7 +251,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="7" name="Items">
+ <objectgroup id="7" name="Items" visible="0">
   <object id="22" name="diamond" gid="49" x="512" y="1024" width="64" height="64"/>
   <object id="23" name="gold" gid="50" x="1088" y="1088" width="64" height="64"/>
   <object id="24" name="potion" gid="51" x="512" y="960" width="64" height="64"/>

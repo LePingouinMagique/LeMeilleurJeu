@@ -1,4 +1,5 @@
 from numpy.array_api import vecdot
+from pygame import pygame
 
 from settings import *
 from random import choice
@@ -132,4 +133,8 @@ class Pearl(pygame.sprite.Sprite):
         if not self.timers['lifetime'].active:
             self.kill()
 
-            
+
+class Woolf(pygame.sprite.Sprite):
+    def __init__(self,pos,groups,collision_sprites, frames):
+        super().__init__(groups)
+        self.frames = frames

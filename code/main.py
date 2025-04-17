@@ -19,13 +19,21 @@ class Game:
 
 		self.ui = UI(self.font,self.ui_frames)
 		self.data = Data(self.ui)
-		self.tmx_map = {0:load_pygame(join('data','levels','parcours1.tmx'))} #liste qui charge toute les cartes "join('..')"
-
-		self.current_stage = Level(self.tmx_map[0],self.level_frames,self.data)
+		self.tmx_map = {
+						"omni2":load_pygame(join('data','levels','parcours1.tmx'))} #liste qui charge toute les cartes "join('..')"
+		#"ship2":load_pygame(join('data','levels','ship2.tmx')),
+		self.current_stage = Level(self.tmx_map["omni2"],self.level_frames,self.data,self)
 		
 		
 		# print(self.tmx_map)
 		#bg
+	def change_state(self, name):
+		if name not in self.tmx_map:
+			if len(self.tmx_map) >= MAX_CACHED_MAPS:
+				self.tmx_map.pop(next(iter(self.tmx_map)))  # supprime la plus ancienne
+			self.tmx_map[name] = load_pygame(join('data', 'levels', f'{name}.tmx'))
+
+		self.current_stage = Level(self.tmx_map[name], self.level_frames, self.data, self)
   
 	def import_assets(self):
 		self.level_frames = {
@@ -54,7 +62,8 @@ class Game:
 			'water_body': import_image('graphics', 'level', 'water', 'body'),
 			'bg_tiles': import_folder_dict('graphics',"level","bg","tiles"),
 			'cloud_small':import_folder('graphics','level','clouds',"small"),
-			'cloud_large': import_image('graphics', 'level', 'clouds', "large_cloud")
+			'cloud_large': import_image('graphics', 'level', 'clouds', "large_cloud"),
+			'wolf':import_sub_folders('graphics','enemies','wolf')
 		}
 
 		self.font = pygame.font.Font(join('graphics','ui','runescape_uf.ttf'),40)
