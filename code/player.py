@@ -187,6 +187,7 @@ class Player(pygame.sprite.Sprite):
     def platform_move(self,dt):
         if self.platform:
             self.hitbox_rect.topleft += self.platform.direction * self.platform.speed * dt
+            self.rect.y += 1
             
             
     def check_contact(self):

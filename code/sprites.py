@@ -1,4 +1,4 @@
-from numpy.core.memmap import dtypedescr
+
 
 from settings import *
 from math import sin,cos, radians
@@ -16,8 +16,11 @@ class Sprite(pygame.sprite.Sprite): #pour chaque sprite du groupe qu'on lui donn
         self.z = z
 
 class AnimatedSprite(Sprite):
-    def __init__(self, pos,frames, groups=None, z=Z_LAYERS['main'], animation_speed = ANIMATION_SPEED):
+    def __init__(self, pos,frames, groups=None, z=Z_LAYERS['main'], animation_speed = ANIMATION_SPEED,reverse = False):
         self.frames, self.frame_index = frames, 0
+        if reverse:
+
+            self.frames = [pygame.transform.flip(i, False, True) for i in self.frames]
         super().__init__(pos,self.frames[self.frame_index], groups, z)
         self.animation_speed = animation_speed
         
@@ -78,7 +81,7 @@ class Wall(pygame.sprite.Sprite):
 
 
 class MovingSprite(AnimatedSprite):
-    def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed, flip= False):
+    def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed, flip= False,random = False):
         
         super().__init__(start_pos,frames, groups)
         
@@ -171,4 +174,7 @@ class Cloud(Sprite):
         self.rect.x += self.direcion * self.speed * dt
         if self.rect.right <=0:
             self.kill()
-        
+
+
+class Floor_spike:
+    pass

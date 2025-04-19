@@ -20,7 +20,7 @@ class Game:
 		self.ui = UI(self.font,self.ui_frames)
 		self.data = Data(self.ui)
 		self.tmx_map = {
-						"omni2":load_pygame(join('data','levels','omni2.tmx'))} #liste qui charge toute les cartes "join('..')"
+						"omni2":load_pygame(join('data','levels','parcours1.tmx'))} #liste qui charge toute les cartes "join('..')"
 		#"ship2":load_pygame(join('data','levels','ship2.tmx')),
 		self.current_stage = Level(self.tmx_map["omni2"],self.level_frames,self.data,self)
 		

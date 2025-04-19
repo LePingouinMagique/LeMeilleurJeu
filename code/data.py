@@ -6,7 +6,7 @@ class Data:
     def __init__(self,ui):
         self.ui = ui
         self._coins = 0
-        self._health = 10
+        self._health = 4
         self.ui.create_hearts(self._health)
 
     @property

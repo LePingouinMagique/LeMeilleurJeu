@@ -51,6 +51,7 @@ class Level:
         
     def setup(self,tmx_map, level_frames):
         for obj in tmx_map.get_layer_by_name('Objects'):  # ex <TiledObject[15]: "player">
+
             if obj.name == "player":
                 
                 self.player = Player(
@@ -68,7 +69,11 @@ class Level:
                 else: #objects avec plusieurs images
                     
                     frames = frames = level_frames[obj.name] if not 'palm' in obj.name else level_frames['palms'][obj.name]
-                    AnimatedSprite((obj.x,obj.y),frames,self.all_sprites)
+                    if obj.name == "floor_spike":
+
+                        AnimatedSprite((obj.x, obj.y), frames, (self.all_sprites,self.damage_sprites),reverse=obj.properties['inverted'])
+                    else:
+                        AnimatedSprite((obj.x,obj.y),frames,self.all_sprites)
 
             if obj.name == 'flag':
                 self.level_finish_rect = pygame.FRect((obj.x,obj.y),(obj.width,obj.height))
@@ -233,7 +238,7 @@ class Level:
                     ParticleEffectSprite((sprite.rect.center), self.particle_frames, self.all_sprites)
 
 
-
+ 
     def item_collision(self):
         if self.item_sprites:
             item_sprites = pygame.sprite.spritecollide(self.player,self.item_sprites,True)
