@@ -13,6 +13,7 @@ class Level:
         self.game = game
         self.diplay_surface = pygame.display.get_surface()
         self.data = data
+        self.checkpoints = []
 
         #level data
         self.level_width = tmx_map.width*TILE_SIZE
@@ -80,7 +81,12 @@ class Level:
             else:
                 self.level_finish_rect = False
 
-                    
+        #checkpoints
+        try:
+            for obj in tmx_map.get_layer_by_name('checkpoints'):
+                self.checkpoints.append(pygame.FRect((obj.x,obj.y),(obj.width,obj.height)))
+        except:
+            print("no checkpoints")
                     
         for obj in tmx_map.get_layer_by_name('BG details'):
             if obj.name == 'static':
@@ -168,7 +174,7 @@ class Level:
         if 1 ==1:
             for obj in tmx_map.get_layer_by_name("Objects2"):
                 if obj.type == "solid":
-                    Wall((obj.x, obj.y), (obj.width, obj.height), [ self.collision_sprites])
+                    Wall((obj.x, obj.y), (obj.width, obj.height), (self.collision_sprites))
 
         
         #enemies
@@ -237,6 +243,11 @@ class Level:
                     sprite.kill()
                     ParticleEffectSprite((sprite.rect.center), self.particle_frames, self.all_sprites)
 
+    def checkpoints_check(self):
+        for checkpoint in self.checkpoints:
+            if checkpoint.colliderect(self.player.hitbox_rect):
+                self.player.checkpoint = checkpoint.topleft
+
 
  
     def item_collision(self):
@@ -268,6 +279,7 @@ class Level:
         #bottom border
         if self.player.hitbox_rect.bottom > self.level_bottom:
             print('die')
+            self.data.health -=1
 
         #success
         if self.level_finish_rect:
@@ -283,6 +295,7 @@ class Level:
         self.item_collision()
         self.attack_collision()
         self.check_constraint()
+        self.checkpoints_check()
 
         self.all_sprites.draw(self.player.hitbox_rect.center,dt)                                                                                                                                                            
         

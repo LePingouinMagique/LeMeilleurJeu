@@ -7,6 +7,7 @@ class Data:
         self.ui = ui
         self._coins = 0
         self._health = 4
+        self.max_health = 4
         self.ui.create_hearts(self._health)
 
     @property

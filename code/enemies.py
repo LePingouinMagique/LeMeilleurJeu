@@ -99,17 +99,13 @@ class Crow(pygame.sprite.Sprite):
     def __init__(self, pos, frames, groups, collision_sprite):
         super().__init__(groups)
         self.frames, self.frame_index = frames, 0
+        ZOOM = 3
+        self.frames  = {'walk':[pygame.transform.scale(i,(i.width*ZOOM,i.height*ZOOM)) for i in self.frames['walk']]}
         self.image = self.frames['walk'][self.frame_index]
-        self.rect = self.image.get_frect(topleft=pos)
-        mask = pygame.mask.from_surface(frames['walk'][0])
-        bbox = mask.get_bounding_rects()[0]  # Renvoie une liste, on prend le premier
 
-        # Découpe l'image à la taille du sprite réel
-        cropped_image = frames['walk'][0].subsurface(bbox).copy()
 
-        # Remplace l'image et le rect par la version "propre"
-        #self.image = cropped_image
-        self.rect = frames['walk'][0].get_rect(topleft=(self.rect.left + bbox.x, self.rect.top + bbox.y))
+        self.rect = self.image.get_frect(topleft=pos).inflate(-30,0)
+
         self.tooth = True
         self.health = 2
 
@@ -124,6 +120,9 @@ class Crow(pygame.sprite.Sprite):
         self.hit_Timer = Timer(200)
         self.lose_health = Timer(800)
         self.death_timer = Timer(1000)
+
+        self.attack_mode = False
+
 
     def reverse(self):
         # quand il se prend un coup

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="90" height="46" tilewidth="64" tileheight="64" infinite="0" nextlayerid="16" nextobjectid="230">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="90" height="46" tilewidth="64" tileheight="64" infinite="0" nextlayerid="17" nextobjectid="235">
  <tileset firstgid="1" source="../tilesets/outside.tsx"/>
  <tileset firstgid="49" source="../tilesets/items.tsx"/>
  <tileset firstgid="54" source="../tilesets/inside.tsx"/>
@@ -9,10 +9,6 @@
  <tileset firstgid="254" source="../tilesets/enemies.tsx"/>
  <tileset firstgid="255" source="../tilesets/grass.tsx"/>
  <objectgroup id="14" name="Objects2" class="solid">
-  <object id="86" name="hit" type="solid" x="577" y="896" width="61.3333" height="12.6667" visible="0"/>
-  <object id="105" type="solid" x="3586" y="1025" width="190" height="14" visible="0"/>
-  <object id="106" type="solid" x="3905" y="1280" width="190" height="15" visible="0"/>
-  <object id="108" type="solid" x="3969" y="769" width="189" height="16" visible="0"/>
   <object id="185" type="solid" x="2434.8" y="2692.83" width="191" height="14.3333"/>
   <object id="186" type="solid" x="2819.33" y="2560" width="61" height="14.3333"/>
   <object id="187" type="solid" x="2562.17" y="2366.83" width="61" height="14.3333"/>
@@ -81,7 +77,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -384,7 +380,6 @@
     <property name="inverted" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="193" name="player" gid="223" x="3981.21" y="541.091" width="74" height="56"/>
   <object id="206" name="floor_spike" gid="1073742050" x="1857.42" y="1025.33" width="64" height="64">
    <properties>
     <property name="inverted" type="bool" value="true"/>
@@ -410,6 +405,7 @@
   <object id="223" name="barrel" gid="216" x="4081.85" y="963.061" width="46" height="50"/>
   <object id="224" name="crate" gid="218" x="4926" y="706.25" width="50" height="36"/>
   <object id="225" name="barrel" gid="216" x="4962" y="706" width="46" height="50"/>
+  <object id="232" name="player" gid="223" x="2403" y="76" width="74" height="56"/>
  </objectgroup>
  <objectgroup id="15" name="Transitions"/>
  <objectgroup id="13" name="Moving Objects">
@@ -535,6 +531,10 @@
    </properties>
   </object>
   <object id="229" name="tooth" gid="225" x="4379" y="833" width="48" height="46"/>
+  <object id="233" name="crow" gid="245" x="2826.33" y="430.333" width="176.333" height="186.667"/>
+ </objectgroup>
+ <objectgroup id="16" name="checkpoints">
+  <object id="230" name="checkpoint1" x="576" y="1336" width="68" height="68"/>
  </objectgroup>
  <objectgroup id="2" name="Water"/>
  <objectgroup id="8" name="Data">

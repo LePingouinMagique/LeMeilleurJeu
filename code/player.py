@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups) 
         self.z = Z_LAYERS['main']
         self.data = data
-        
+        self.checkpoint = pos
         #image
         self.frames, self.frames_index = frames, 0
         self.state , self.facing_right = 'idle', True
@@ -221,6 +221,7 @@ class Player(pygame.sprite.Sprite):
     def collision(self, axis):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.hitbox_rect):
+                #print(sprite)
                 if axis == 'horizontal':    #horizontal_collision gestion
                     #left collision
                     #print("overlap")
@@ -278,6 +279,13 @@ class Player(pygame.sprite.Sprite):
             self.data.health -= 1
             self.timers['lose_health'].activate()
             self.timers['hit'].activate()
+
+    def check_death(self):
+        if self.data.health <= 0:
+            self.rect = self.image.get_frect(topleft=self.checkpoint)
+            self.hitbox_rect = self.rect.inflate(-76,-36)
+            self.data.health = self.data.max_health
+
     def flicker(self):
         if self.timers['hit'].active and sin(pygame.time.get_ticks() / 18)>=0: #pour que ça clignote
             white_mask = pygame.mask.from_surface(self.image)
@@ -286,7 +294,7 @@ class Player(pygame.sprite.Sprite):
             self.image = white_surf
              
     def update(self,dt):
-        
+        self.check_death()
         self.old_rect = self.hitbox_rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
         #uptate the times
         self.uptate_timer()
@@ -297,6 +305,7 @@ class Player(pygame.sprite.Sprite):
         
         #print(self.direction)
         self.move(dt)
+
         
         self.platform_move(dt)
         #check les contact avecc les trois rectengla dun jouer droite gauche bas
