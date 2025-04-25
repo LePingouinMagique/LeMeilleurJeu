@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="90" height="46" tilewidth="64" tileheight="64" infinite="0" nextlayerid="17" nextobjectid="235">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="90" height="46" tilewidth="64" tileheight="64" infinite="0" nextlayerid="17" nextobjectid="236">
  <tileset firstgid="1" source="../tilesets/outside.tsx"/>
  <tileset firstgid="49" source="../tilesets/items.tsx"/>
  <tileset firstgid="54" source="../tilesets/inside.tsx"/>
@@ -15,7 +15,7 @@
   <object id="188" type="solid" x="2175.5" y="2177.5" width="129.667" height="14.3333"/>
   <object id="192" type="solid" x="1410.92" y="1983.74" width="199.364" height="14.3333"/>
   <object id="194" type="solid" x="1792" y="1984" width="61" height="14.3333"/>
-  <object id="210" type="solid" x="1024" y="1408" width="62.864" height="14.3333"/>
+  <object id="210" type="solid" x="1024" y="1408" width="62.864" height="14.3333" visible="0"/>
   <object id="215" type="solid" x="3904.17" y="770.167" width="251.667" height="14.3333"/>
  </objectgroup>
  <layer id="9" name="BG" width="90" height="46">
@@ -405,7 +405,7 @@
   <object id="223" name="barrel" gid="216" x="4081.85" y="963.061" width="46" height="50"/>
   <object id="224" name="crate" gid="218" x="4926" y="706.25" width="50" height="36"/>
   <object id="225" name="barrel" gid="216" x="4962" y="706" width="46" height="50"/>
-  <object id="232" name="player" gid="223" x="2403" y="76" width="74" height="56"/>
+  <object id="235" name="player" gid="223" x="123.606" y="2720.48" width="74" height="56"/>
  </objectgroup>
  <objectgroup id="15" name="Transitions"/>
  <objectgroup id="13" name="Moving Objects">
@@ -534,7 +534,7 @@
   <object id="233" name="crow" gid="245" x="2826.33" y="430.333" width="176.333" height="186.667"/>
  </objectgroup>
  <objectgroup id="16" name="checkpoints">
-  <object id="230" name="checkpoint1" x="576" y="1336" width="68" height="68"/>
+  <object id="230" name="checkpoint1" x="751.758" y="1393.58" width="68" height="68"/>
  </objectgroup>
  <objectgroup id="2" name="Water"/>
  <objectgroup id="8" name="Data">

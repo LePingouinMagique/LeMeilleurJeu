@@ -1,4 +1,4 @@
-
+import pygame
 
 from settings import *
 from math import sin,cos, radians
@@ -16,13 +16,15 @@ class Sprite(pygame.sprite.Sprite): #pour chaque sprite du groupe qu'on lui donn
         self.z = z
 
 class AnimatedSprite(Sprite):
-    def __init__(self, pos,frames, groups=None, z=Z_LAYERS['main'], animation_speed = ANIMATION_SPEED,reverse = False):
+    def __init__(self, pos,frames, groups=None, z=Z_LAYERS['main'], animation_speed = ANIMATION_SPEED,reverse = False,zoom = 1,speed_acc = 1):
         self.frames, self.frame_index = frames, 0
+        ZOOM = zoom
+        self.frames = [pygame.transform.scale(i,(i.width*ZOOM,i.height*ZOOM)) for i in self.frames]
         if reverse:
 
             self.frames = [pygame.transform.flip(i, False, True) for i in self.frames]
         super().__init__(pos,self.frames[self.frame_index], groups, z)
-        self.animation_speed = animation_speed
+        self.animation_speed = animation_speed*speed_acc
         
     def animate(self,dt):
         self.frame_index += (self.animation_speed*dt)

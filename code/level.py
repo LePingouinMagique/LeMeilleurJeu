@@ -74,7 +74,12 @@ class Level:
 
                         AnimatedSprite((obj.x, obj.y), frames, (self.all_sprites,self.damage_sprites),reverse=obj.properties['inverted'])
                     else:
-                        AnimatedSprite((obj.x,obj.y),frames,self.all_sprites)
+
+                        AnimatedSprite((obj.x,obj.y),
+                                       frames,
+                                       (self.all_sprites) if obj.name != "saw" else (self.all_sprites,self.damage_sprites),
+                                       zoom = obj.properties['zoom'] if "zoom" in obj.properties else 1,
+                                       speed_acc = obj.properties['speed_acc'] if "speed_acc" in obj.properties else 1)
 
             if obj.name == 'flag':
                 self.level_finish_rect = pygame.FRect((obj.x,obj.y),(obj.width,obj.height))
