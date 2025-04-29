@@ -35,8 +35,9 @@ class AnimatedSprite(Sprite):
 
 
 class Item(AnimatedSprite):
-    def __init__(self, item_type, pos, frames, groups,data):
+    def __init__(self, item_type, pos, frames, groups,data,level):
         super().__init__(pos,frames, groups)
+        self.level = level
         self.rect.center = pos
         self.item_type = item_type
         self.data = data
@@ -49,6 +50,8 @@ class Item(AnimatedSprite):
         if self.item_type == 'diamond':
             self.data.coins+= 20
         if self.item_type == 'skull':
+            #player boost speed & jump
+            self.level.player.boost_with_item()
             self.data.coins += 50
         if self.item_type == 'potion':
             self.data.health += 1

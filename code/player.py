@@ -27,9 +27,13 @@ class Player(pygame.sprite.Sprite):
         self.speed = 450 #200
         self.gravity = 1900
         self.jump = False
-        self.jump_height = 1000
-        self.wall_jump_power = 1.2
+        self.jump_height = 700
+        self.wall_jump_power = 1.0
         self.attacking = False
+        self.boost = 1.5
+        self.jump_sup = -50
+
+        self.rainbow = [""]
         
         self.arrivée_paroie = 0   #cette variable permet d'utiliser un cooldown (wall jump => un peu de glissade avant) lorsque que lon retouche une paroie (cad avant que  on en touche)
                                     # 0=> pas sur une paroie
@@ -49,12 +53,14 @@ class Player(pygame.sprite.Sprite):
         
         #timer
         self.timers = {
-            'wall jump': Timer(270), # durée de la propulsion d'un wall jump
-            'time before wall jump':Timer(100),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
+            'wall jump': Timer(190), # durée de la propulsion d'un wall jump
+            'time before wall jump':Timer(60),  #temps qu'il faut au personnage pour d'abord glisser sur le mur avant de pouvoir wall jump
             'jump':Timer(200),  # latence entre chaque jump (indépendant de wall juump)
             'attack block': Timer(500),
             'hit': Timer(400),
-            'lose_health':Timer(1500)
+            'lose_health':Timer(1500),
+            'boost':Timer(10000),
+            'jump_sup':Timer(200)
         }
         
         
@@ -124,6 +130,8 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and not self.timers["jump"].active:
             self.timers["jump"].activate()
             self.jump = True
+        if keys[pygame.K_SPACE] and self.timers['jump_sup'].active:
+            self.direction.y += self.jump_sup
         if keys[pygame.K_g]:
             self.hitbox_rect.x , self.hitbox_rect.y = 652 , 330
             self.direction.y = 0
@@ -168,8 +176,11 @@ class Player(pygame.sprite.Sprite):
         if self.jump:
             if self.on_surface["floor"] or self.platform:  #JUMP NORMAL
                 #print("z")
+                self.timers['jump_sup'].activate()
+
                 self.direction.y = - self.jump_height
                 self.hitbox_rect.bottom -= 3
+            
                 
             elif any((self.on_surface['right'], self.on_surface['left'])) and not self.on_surface["floor"] and not self.timers["time before wall jump"].active:  #WALL JUMP
                 #print("#"*99)
@@ -248,7 +259,13 @@ class Player(pygame.sprite.Sprite):
     def uptate_timer(self):
         for timer in self.timers.values():
             timer.update() #update chaque timer pour le joueur
-        
+
+    def boost_with_item(self):
+        if not self.timers['boost'].active:
+            self.timers['boost'].activate()
+            self.speed *= self.boost
+            self.jump_height *= self.boost
+            
          
     def animate(self,dt):
         self.frames_index += ANIMATION_SPEED * dt
@@ -292,8 +309,18 @@ class Player(pygame.sprite.Sprite):
             white_surf = white_mask.to_surface()
             white_surf.set_colorkey('black')
             self.image = white_surf
+    def rainbow(self): #genre &toile mariokart
+
+        '''white_mask = pygame.mask.from_surface(self.image)
+            white_surf = white_mask.to_surface()
+            white_surf.set_colorkey('black')
+            self.image = white_surf'''
              
     def update(self,dt):
+        
+        if not self.timers['boost'].active :
+            self.speed = 450 #200
+            self.jump_height = 700
         self.check_death()
         self.old_rect = self.hitbox_rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
         #uptate the times

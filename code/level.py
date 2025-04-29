@@ -200,7 +200,7 @@ class Level:
 
         #items
         for obj in tmx_map.get_layer_by_name('Items'):
-            Item(obj.name,(obj.x +TILE_SIZE/2,obj.y+ TILE_SIZE/2),level_frames['items'][obj.name],(self.all_sprites,self.item_sprites),self.data)
+            Item(obj.name,(obj.x +TILE_SIZE/2,obj.y+ TILE_SIZE/2),level_frames['items'][obj.name],(self.all_sprites,self.item_sprites),self.data,self)
 
         #transitions
         for obj in tmx_map.get_layer_by_name('Transitions'):
