@@ -1,8 +1,8 @@
 import pygame
-from jinja2.filters import sync_do_select
-from numpy.ma.extras import row_stack
+
 
 from settings import *
+#sinon import *
 from sprites import Sprite, MovingSprite, Wall, AnimatedSprite, Spike, Item, ParticleEffectSprite
 from player import Player
 from groups import AllSprites
