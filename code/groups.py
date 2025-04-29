@@ -1,4 +1,4 @@
-from numpy.distutils.lib2def import py_ver
+
 import pygame
 
 from settings import *
