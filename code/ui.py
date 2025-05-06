@@ -1,6 +1,7 @@
 import pygame
 from sprites import AnimatedSprite
 
+
 from settings import *
 from random import randint
 from timer import Timer
@@ -27,6 +28,12 @@ class UI:
         self.end_timer = False
         self.pas = True
         self.coin_surf = frames['coin']
+        self.calis_surf = frames['calice']
+        self.calis_black_surf = frames['calice_black']
+        self.calis = 0
+
+    def change_number_of_calis(self):
+        self.calis +=1
 
 
     def display_text(self):
@@ -44,7 +51,22 @@ class UI:
         text_rect = text_surf.get_frect(topleft = (13,34)).move(30,0)
         self.display_surf.blit(text_surf, text_rect)
         coin_rect = self.coin_surf.get_frect(center = text_rect.bottomleft).move(-22,-20)
-        self.display_surf.blit(self.coin_surf,coin_rect)
+        self.display_surf.blit(self.coin_surf, coin_rect)
+
+        #calis part
+        a = self.calis
+        for i in range(5):  # suppose qu'il peut y avoir jusqu'à 5 calices
+            if i < a:
+                surf = self.calis_surf  # calice récupéré
+            else:
+                surf = self.calis_black_surf  # calice non récupéré
+
+            x = self.display_surf.get_width() - (surf.get_width() + 10) * (5 - i)
+            y = 10
+            self.display_surf.blit(surf, (x, y))
+
+
+
 
     def show_coin(self,amount):
         self.coins_timer.activate()
