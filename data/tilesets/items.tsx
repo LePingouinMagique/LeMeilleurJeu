@@ -17,6 +17,6 @@
   <image source="../../graphics/objects/items/skull.png" width="64" height="64"/>
  </tile>
  <tile id="5">
-  <image source="../../graphics/items/calice/calice.png" width="191" height="269"/>
+  <image source="../../graphics/items/calice/0.png" width="191" height="269"/>
  </tile>
 </tileset>

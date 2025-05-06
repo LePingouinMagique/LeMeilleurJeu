@@ -71,8 +71,8 @@ class Game:
 		self.ui_frames = {
 			'heart' : import_folder('graphics','ui','heart'),
 			'coin':import_image('graphics','ui','coin'),
-			'calice':import_image('mine',"calice.png"),
-			'calice_black':import_image('mine',"calice.png")
+			'calice':import_image('Mine',"calice"),
+			'calice_black':import_image('Mine',"calice_black")
 		}
 	def run(self):
 		while True:

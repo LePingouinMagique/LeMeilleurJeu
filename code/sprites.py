@@ -40,6 +40,11 @@ class Item(AnimatedSprite):
         self.level = level
         self.rect.center = pos
         self.item_type = item_type
+        if item_type == 'calice':
+            self.rect = pygame.transform.scale(self.image, (
+                int(self.image.get_width() * 0.15),
+                int(self.image.get_height() * 0.15)
+            ))
         self.data = data
 
     def activate(self): #effet des items sur la map
