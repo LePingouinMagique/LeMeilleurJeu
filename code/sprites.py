@@ -41,10 +41,21 @@ class Item(AnimatedSprite):
         self.rect.center = pos
         self.item_type = item_type
         if item_type == 'calice':
-            self.rect = pygame.transform.scale(self.image, (
-                int(self.image.get_width() * 0.15),
-                int(self.image.get_height() * 0.15)
-            ))
+
+            # Réduire la taille de l'image
+            scale_factor = 0.26
+            self.image = pygame.transform.scale(
+                self.image,
+                (
+                    int(self.image.get_width() * scale_factor),
+                    int(self.image.get_height() * scale_factor)
+                )
+            )
+            self.frames = [self.image]
+            # Toujours mettre à jour le rect après transformation de l'image
+        self.rect = self.image.get_rect(center=pos)
+            
+        
         self.data = data
 
     def activate(self): #effet des items sur la map
@@ -60,6 +71,8 @@ class Item(AnimatedSprite):
             self.data.coins += 50
         if self.item_type == 'potion':
             self.data.health += 1
+        if self.item_type == "calice":
+            self.data.calis += 1
 
 
 

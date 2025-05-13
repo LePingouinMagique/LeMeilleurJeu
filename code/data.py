@@ -8,16 +8,17 @@ class Data:
         self._coins = 0
         self._health = 4
         self.max_health = 4
-        self._calis = 0
+        self._calis = 2
         self.ui.create_hearts(self._health)
 
     @property
     def calis(self):
         return self._calis
     @calis.setter
-    def elexir(self,value):
-        self._calis+= 1
-        self.ui.change_number_of_calis()
+    def calis(self,value):
+        self._calis+= value
+        self.ui.add_calice()
+
 
 
     @property

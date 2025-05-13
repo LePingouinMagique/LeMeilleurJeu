@@ -14,9 +14,10 @@ class UI:
         zoom = 0.15
 
         # health
+        zomm = 1.6
         heart_frames_original = frames['heart']
         self.heart_frames = [
-            pygame.transform.scale(i, (int(i.get_width() * zoom), int(i.get_height() * zoom)))
+            pygame.transform.scale(i, (int(i.get_width() * zomm), int(i.get_height() * zomm)))
             for i in heart_frames_original
         ]
         self.heart_surf_width = self.heart_frames[0].get_width()
@@ -31,7 +32,7 @@ class UI:
         self.pas = True
         self.coin_surf = pygame.transform.scale(
             frames['coin'],
-            (int(frames['coin'].get_width() * zoom), int(frames['coin'].get_height() * zoom))
+            (int(frames['coin'].get_width() * zomm), int(frames['coin'].get_height() * zomm))
         )
 
         # calices
@@ -45,8 +46,11 @@ class UI:
         )
 
         # number of calices collected (default to 0)
-        self.calice_count = 0
+        self.calice_count  = 0
         self.max_calices = 5  # Change as needed
+    def add_calice(self):
+        self.calice_count += 1
+
 
     def display_text(self):
         # Coin animation text
