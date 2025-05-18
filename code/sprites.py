@@ -58,7 +58,8 @@ class Item(AnimatedSprite):
         
         self.data = data
 
-    def activate(self): #effet des items sur la map
+    def activate(self):
+        self.level.sound_manager.play_sound("coin")                                #effet des items sur la map
         if self.item_type == "gold":
             self.data.coins +=5
         if self.item_type == 'silver':

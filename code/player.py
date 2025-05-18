@@ -4,11 +4,13 @@ from settings import *
 from timer import Timer
 from os.path import join
 from math import sin
+from sound import SoundManager
 
 class Player(pygame.sprite.Sprite): 
     def __init__(self,pos,groups,collision_sprites, frames,data,level_):
         #general setup
-        super().__init__(groups) 
+        super().__init__(groups)
+        self.sound_manager = SoundManager()
         self.z = Z_LAYERS['main']
         self.data = data
         self.checkpoint = pos
@@ -180,12 +182,14 @@ class Player(pygame.sprite.Sprite):
                 self.timers['jump_sup'].activate()
 
                 self.direction.y = - self.jump_height
+                self.sound_manager.play_sound('jump')
                 self.hitbox_rect.bottom -= 3
             
                 
             elif any((self.on_surface['right'], self.on_surface['left'])) and not self.on_surface["floor"] and not self.timers["time before wall jump"].active:  #WALL JUMP
                 #print("#"*99)
                 self.timers["wall jump"].activate()
+                self.sound_manager.play_sound('jump')
                 
                 self.direction.y = - self.jump_height
                 self.direction.x = self.wall_jump_power if self.on_surface['left'] else -self.wall_jump_power
@@ -294,6 +298,7 @@ class Player(pygame.sprite.Sprite):
 
     def get_damage(self):
         if not self.timers['hit'].active and not self.timers['lose_health'].active:
+            self.sound_manager.play_sound('damage')
             self.data.health -= 1
             self.timers['lose_health'].activate()
             self.timers['hit'].activate()

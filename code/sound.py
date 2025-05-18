@@ -3,11 +3,14 @@ import pygame
 
 class SoundManager:
     def __init__(self):
-        # self.sounds = {
-        #     'sword1': pygame.mixer.Sound('assets/sounds&musics/sword.mp3'),
-        #     'footsteps': pygame.mixer.Sound('assets/sounds&musics/footstep.mp3')
-        #
-        # }
+        self.sounds = {
+             'hit': pygame.mixer.Sound('audio/hit.wav'),
+            'pearl': pygame.mixer.Sound('audio/pearl.wav'),
+            'jump': pygame.mixer.Sound('audio/jump.wav'),
+            'damage': pygame.mixer.Sound('audio/damage.wav'),
+            'coin': pygame.mixer.Sound('audio/coin.wav'),}
+
+
         self.musics = {
             'ship2': pygame.mixer.Sound("Mine/musics/ship2.mp3"),
             'parcours1': pygame.mixer.Sound("Mine/musics/parcours1.mp3"),
