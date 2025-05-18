@@ -12,6 +12,7 @@ MAX_CACHED_MAPS = 3
 
 # layers 
 Z_LAYERS = {
+    'fg':3,
 	'bg':0,
     'clouds':1,
     'bg tiles':2,
@@ -19,5 +20,5 @@ Z_LAYERS = {
     'bg details':4,
     'main':5,
     'water':6,
-    'fg':7
+
 }

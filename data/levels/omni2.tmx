@@ -261,7 +261,7 @@
   <object id="78" name="skull" gid="53" x="576" y="704" width="64" height="64"/>
   <object id="79" name="skull" gid="53" x="832" y="768" width="64" height="64"/>
   <object id="80" name="skull" gid="53" x="704" y="704" width="64" height="64"/>
-  <object id="150" name="calice" gid="54" x="1477" y="837" width="191" height="269"/>
+  <object id="150" name="calice" gid="54" x="1544.21" y="895.459" width="46.3383" height="68.0986" rotation="0.18426"/>
  </objectgroup>
  <objectgroup id="6" name="Enemies">
   <object id="36" name="shell" gid="225" x="192" y="1024" width="76" height="46">

@@ -80,7 +80,7 @@ class ParticleEffectSprite(AnimatedSprite):
     def __init__(self,pos,frames,groups):
         super().__init__(pos,frames, groups)
         self.rect.center = pos
-        self.z = Z_LAYERS["fg"]
+        self.z = Z_LAYERS["main"]
 
     def animate(self,dt):
         self.frame_index += self.animation_speed * dt

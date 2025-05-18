@@ -7,14 +7,17 @@ from sprites import Sprite, MovingSprite, Wall, AnimatedSprite, Spike, Item, Par
 from player import Player
 from groups import AllSprites
 from enemies import Tooth, Shell, Pearl, Crow
+from sound import SoundManager
 
 class Level:
-    def __init__(self, tmx_map, level_frames, data, game): # prndsen paramètre une carte à l'appelle
+    def __init__(self, tmx_map, level_frames, data, game,name):# prndsen paramètre une carte à l'appelle
         self.game = game
+        self.name =name
         self.diplay_surface = pygame.display.get_surface()
         self.data = data
         self.checkpoints = []
-
+        self.sound_manager = SoundManager()
+        self.sound_manager.play_music(name)
         #level data
         self.level_width = tmx_map.width*TILE_SIZE
         self.level_bottom = tmx_map.height * TILE_SIZE
@@ -60,7 +63,8 @@ class Level:
                     groups=self.all_sprites, 
                     collision_sprites=self.collision_sprites,
                     frames = level_frames['player'],
-                    data = self.data)
+                    data = self.data,
+                    level_ = self)
                 
                 
                 
@@ -90,8 +94,11 @@ class Level:
         try:
             for obj in tmx_map.get_layer_by_name('checkpoints'):
                 self.checkpoints.append(pygame.FRect((obj.x,obj.y),(obj.width,obj.height)))
+                print(self.checkpoints)
         except:
             print("no checkpoints")
+
+        print(self.checkpoints)
                     
         for obj in tmx_map.get_layer_by_name('BG details'):
             if obj.name == 'static':
@@ -116,9 +123,10 @@ class Level:
                     case 'BG':
                         z = Z_LAYERS['bg tiles']
                     case 'FG':
-                        z = Z_LAYERS['bg tiles']
+                        z = Z_LAYERS['bg tiles']-1
                     case _ :
-                        z = Z_LAYERS["main"] -1
+                        z = Z_LAYERS["main"]-1
+
                 Sprite((x*TILE_SIZE,y*TILE_SIZE),surf,groups,z)
                 
                 
@@ -250,6 +258,7 @@ class Level:
 
     def checkpoints_check(self):
         for checkpoint in self.checkpoints:
+
             if checkpoint.colliderect(self.player.hitbox_rect):
                 self.player.checkpoint = checkpoint.topleft
 
@@ -267,6 +276,7 @@ class Level:
         for transition in self.transitions_rects:
             if transition[0].colliderect(self.player.hitbox_rect):
                 self.game.change_state(transition[1])
+                self.sound_manager.stop_music(self.name)
 
     def attack_collision(self):
         for target in self.pearl_sprites.sprites() + self.tooth_sprites.sprites():

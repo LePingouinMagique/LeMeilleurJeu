@@ -19,10 +19,11 @@ class Game:
 
 		self.ui = UI(self.font,self.ui_frames)
 		self.data = Data(self.ui)
+		iniit = "ship2"
 		self.tmx_map = {
-						"omni2":load_pygame(join('data','levels','omni2.tmx'))} #liste qui charge toute les cartes "join('..')"
+						"ship2":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"
 		#"ship2":load_pygame(join('data','levels','ship2.tmx')),
-		self.current_stage = Level(self.tmx_map["omni2"],self.level_frames,self.data,self)
+		self.current_stage = Level(self.tmx_map[iniit],self.level_frames,self.data,self,iniit)
 		
 		
 		# print(self.tmx_map)
@@ -33,7 +34,7 @@ class Game:
 				self.tmx_map.pop(next(iter(self.tmx_map)))  # supprime la plus ancienne
 			self.tmx_map[name] = load_pygame(join('data', 'levels', f'{name}.tmx'))
 
-		self.current_stage = Level(self.tmx_map[name], self.level_frames, self.data, self)
+		self.current_stage = Level(self.tmx_map[name], self.level_frames, self.data, self,name)
   
 	def import_assets(self):
 		self.level_frames = {

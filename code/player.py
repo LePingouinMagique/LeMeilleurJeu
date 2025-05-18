@@ -6,12 +6,13 @@ from os.path import join
 from math import sin
 
 class Player(pygame.sprite.Sprite): 
-    def __init__(self,pos,groups,collision_sprites, frames,data):
+    def __init__(self,pos,groups,collision_sprites, frames,data,level_):
         #general setup
         super().__init__(groups) 
         self.z = Z_LAYERS['main']
         self.data = data
         self.checkpoint = pos
+        self.level_ = level_
         #image
         self.frames, self.frames_index = frames, 0
         self.state , self.facing_right = 'idle', True
@@ -31,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.wall_jump_power = 1.0
         self.attacking = False
         self.boost = 1.5
-        self.jump_sup = -50
+        self.jump_sup = -32
 
         self.rainbow = [""]
         
@@ -60,7 +61,7 @@ class Player(pygame.sprite.Sprite):
             'hit': Timer(400),
             'lose_health':Timer(1500),
             'boost':Timer(10000),
-            'jump_sup':Timer(200)
+            'jump_sup':Timer(110)
         }
         
         

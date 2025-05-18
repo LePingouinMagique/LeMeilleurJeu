@@ -47,7 +47,7 @@ class UI:
 
         # number of calices collected (default to 0)
         self.calice_count  = 0
-        self.max_calices = 5  # Change as needed
+        self.max_calices = 3  # Change as needed
     def add_calice(self):
         self.calice_count += 1
 
