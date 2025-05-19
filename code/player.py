@@ -63,7 +63,7 @@ class Player(pygame.sprite.Sprite):
             'hit': Timer(400),
             'lose_health':Timer(1500),
             'boost':Timer(10000),
-            'jump_sup':Timer(200),
+            'jump_sup':Timer(120),
             'start_gravity':Timer(1000)
         }
         self.timers['start_gravity'].activate()

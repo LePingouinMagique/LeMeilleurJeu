@@ -214,7 +214,7 @@
     <property name="speed" type="int" value="100"/>
    </properties>
   </object>
-  <object id="73" name="spike" gid="228" x="456" y="922" width="54" height="54">
+  <object id="73" name="spike" gid="228" x="395.333" y="944.667" width="114.667" height="114.667">
    <properties>
     <property name="end_angle" type="int" value="180"/>
     <property name="platform" type="bool" value="false"/>

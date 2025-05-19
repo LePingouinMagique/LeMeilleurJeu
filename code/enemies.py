@@ -26,6 +26,8 @@ class Tooth(pygame.sprite.Sprite):
         self.hit_Timer = Timer(200)
         self.lose_health = Timer(800)
         self.death_timer = Timer(1000)
+        self.start = Timer(2000)
+        self.start.activate()
 
     def reverse(self):
         #quand il se prend un coup
@@ -54,44 +56,45 @@ class Tooth(pygame.sprite.Sprite):
         self.hit_Timer.update()
         self.lose_health.update()
         self.death_timer.update()
+        self.start.update()
 
 
 
+        if not self.start.active:
+            if not self.dead:
+                self.frame_index += ANIMATION_SPEED * dt
+                self.image = self.frames[int(self.frame_index % len(self.frames))] if self.direction >=0 else pygame.transform.flip(self.frames[int(self.frame_index % len(self.frames))],True,False)
+            else:
+                self.image = pygame.transform.scale(self.image,(self.image.width*0.99,self.image.height*0.99))
+            #move
+            if self.health <=0:
+                self.death()
+                if not self.death_timer.active:
+                    if not self.dead:
+                        self.death_timer.activate()
+                        self.dead = True
+                    else:
 
-        if not self.dead:
-            self.frame_index += ANIMATION_SPEED * dt
-            self.image = self.frames[int(self.frame_index % len(self.frames))] if self.direction >=0 else pygame.transform.flip(self.frames[int(self.frame_index % len(self.frames))],True,False)
-        else:
-            self.image = pygame.transform.scale(self.image,(self.image.width*0.99,self.image.height*0.99))
-        #move
-        if self.health <=0:
-            self.death()
-            if not self.death_timer.active:
-                if not self.dead:
-                    self.death_timer.activate()
-                    self.dead = True
-                else:
+                        self.kill()
 
-                    self.kill()
+            if not self.dead:
+                self.rect.x += self.speed * self.direction * dt
+            if not self.dead:
+                self.flicker()
+            floor_rect_right = pygame.FRect(self.rect.bottomright,(1,1))
+            floor_rect_left= pygame.FRect(self.rect.bottomleft,(-1,1))
+            right_rect = pygame.FRect(self.rect.topright,(2,-self.rect.height))
+            left_rect = pygame.FRect(self.rect.topleft,(-2,-self.rect.height))
 
-        if not self.dead:
-            self.rect.x += self.speed * self.direction * dt
-        if not self.dead:
-            self.flicker()
-        floor_rect_right = pygame.FRect(self.rect.bottomright,(1,1))
-        floor_rect_left= pygame.FRect(self.rect.bottomleft,(-1,1))
-        right_rect = pygame.FRect(self.rect.topright,(2,-self.rect.height))
-        left_rect = pygame.FRect(self.rect.topleft,(-2,-self.rect.height))
-        
 
-        if floor_rect_right.collidelist(self.collision_rects) < 0 and self.direction >0:
-            self.direction = -1
-        elif floor_rect_left.collidelist(self.collision_rects) <0 and self.direction <0:
-            self.direction = 1
-        elif right_rect.collidelist(self.collision_rects) >0 and self.direction>0:
-            self.direction = -1
-        elif left_rect.collidelist(self.collision_rects) >0 and self.direction<0:
-            self.direction = 1
+            if floor_rect_right.collidelist(self.collision_rects) < 0 and self.direction >0:
+                self.direction = -1
+            elif floor_rect_left.collidelist(self.collision_rects) <0 and self.direction <0:
+                self.direction = 1
+            elif right_rect.collidelist(self.collision_rects) >0 and self.direction>0:
+                self.direction = -1
+            elif left_rect.collidelist(self.collision_rects) >0 and self.direction<0:
+                self.direction = 1
 
 
 class Crow(pygame.sprite.Sprite):
