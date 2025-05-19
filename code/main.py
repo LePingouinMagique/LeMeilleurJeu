@@ -8,6 +8,7 @@ from support import *
 from data import Data
 from debug import debug
 from ui import UI
+from player import Player
 
 class Game:
 	def __init__(self):
@@ -88,6 +89,8 @@ class Game:
 					if event.key == pygame.K_KP_0 or event.key == pygame.K_0 :
 						pygame.quit()
 						sys.exit()
+				# if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # 1 = clic gauche
+				# 	Player()
 
 			self.current_stage.run(dt)
 			self.ui.update(dt)
