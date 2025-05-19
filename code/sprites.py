@@ -33,7 +33,6 @@ class AnimatedSprite(Sprite):
     def update(self,dt):
         self.animate(dt)
 
-
 class Item(AnimatedSprite):
     def __init__(self, item_type, pos, frames, groups,data,level):
         super().__init__(pos,frames, groups)
@@ -75,8 +74,6 @@ class Item(AnimatedSprite):
         if self.item_type == "calice":
             self.data.calis += 1
 
-
-
 class ParticleEffectSprite(AnimatedSprite):
     def __init__(self,pos,frames,groups):
         super().__init__(pos,frames, groups)
@@ -90,9 +87,6 @@ class ParticleEffectSprite(AnimatedSprite):
         else:
             self.kill()
 
-
-
-
 class Wall(pygame.sprite.Sprite):
     def __init__(self, pos, size, groups):
         super().__init__(groups)
@@ -103,30 +97,22 @@ class Wall(pygame.sprite.Sprite):
         self.old_rect = self.rect.copy()
         #print(self.rect)
 
-
-
 class MovingSprite(AnimatedSprite):
     def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed, flip= False,random = False):
-        
         super().__init__(start_pos,frames, groups)
-        
         if move_dir == 'x':
             self.rect.midleft = start_pos
         else:
             self.rect.midtop = start_pos
         self.start_pos = start_pos
         self.end_pos = end_pos
-
         #movements
         self.moving = True
         self.speed = speed
         self.direction = vector(1,0) if move_dir == 'x' else vector(0,1)
         self.move_dir = move_dir
-        
         self.flip = flip
         self.reverse = {'x':False, 'y':False}
-        
-        
     def check_border(self):
         if self.move_dir == 'x':
             if self.rect.right >= self.end_pos[0] and self.direction.x == 1:
@@ -135,7 +121,6 @@ class MovingSprite(AnimatedSprite):
             if self.rect.left <= self.start_pos[0] and self.direction.x == -1:
                 self.direction.x = 1
                 self.rect.left = self.start_pos[0]
-                
             self.reverse['x'] = True if self.direction.x < 0 else False
         else :
             if self.rect.bottom >= self.end_pos[1] and self.direction.y == 1:
@@ -144,7 +129,6 @@ class MovingSprite(AnimatedSprite):
             if self.rect.top <= self.start_pos[1] and self.direction.y == -1:
                 self.direction.y = 1
                 self.rect.top = self.start_pos[1]
-            
         self.reverse['y'] = True if self.direction.y > 0 else False
     def update(self, dt):
         self.old_rect = self.rect.copy()
@@ -153,7 +137,6 @@ class MovingSprite(AnimatedSprite):
         self.animate(dt)
         if self.flip:
             self.image = pygame.transform.flip(self.image,self.reverse['x'],self.reverse['y'])
-
 
 class Spike(Sprite):
     def __init__(self, pos, surf,groups, radius, speed, start_angle, end_angle,z = Z_LAYERS['main']):
@@ -186,8 +169,6 @@ class Spike(Sprite):
         x = self.center[0] + cos(radians(self.angle)) * self.radius
         self.rect.center = (x,y) 
 
-
-
 class Cloud(Sprite):
     def __init__(self,pos,surf,groups, z= Z_LAYERS['clouds']):
         super().__init__(pos,surf,groups,z)
@@ -199,7 +180,6 @@ class Cloud(Sprite):
         self.rect.x += self.direcion * self.speed * dt
         if self.rect.right <=0:
             self.kill()
-
 
 class Floor_spike:
     pass

@@ -53,8 +53,6 @@ class AllSprites(pygame.sprite.Group):
                       surf = choice(self.small_cloud),
                       groups=self)
 
-
-
     def camera_constraint(self):
         self.offset.x = self.offset.x if self.offset.x < self.borders['left'] else self.borders['left']
         self.offset.x = self.offset.x if self.offset.x > self.borders['right'] else self.borders['right']
@@ -86,18 +84,15 @@ class AllSprites(pygame.sprite.Group):
               groups=self)
 
     def draw(self,target_pos,dt):
-
+        #target_pos => position du player pour info
         self.offset.x = -(target_pos[0] - WINDOW_WIDTH//2)
         self.offset.y = -(target_pos[1] - WINDOW_HEIGHT//2)
-
         self.camera_constraint()
         if not self.bg_tiles:
             self.cloud_timer.update()
             self.draw_large_cloud(dt)
         if self.sky:
             self.draw_sky()
-
-
         for sprite in sorted(self,key = lambda sprite : sprite.z): #dessine selon lordre des layer donnée par Z_Layer
             offset_pos = sprite.rect.topleft + self.offset
             self.display_surface.blit(sprite.image, offset_pos)

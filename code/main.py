@@ -19,9 +19,9 @@ class Game:
 
 		self.ui = UI(self.font,self.ui_frames)
 		self.data = Data(self.ui)
-		iniit = "ship2"
+		iniit = "omni2"
 		self.tmx_map = {
-						"ship2":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"
+						"omni2":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"
 		#"ship2":load_pygame(join('data','levels','ship2.tmx')),
 		self.current_stage = Level(self.tmx_map[iniit],self.level_frames,self.data,self,iniit)
 		
@@ -77,7 +77,7 @@ class Game:
 		}
 	def run(self):
 		while True:
-			dt = self.clock.tick(MAX_FPS) / 1000  #delta time en seconde permet e toujours avoir la même vitesse selon fps meme lower (gernre ça calcul fps + time execution)
+			dt = self.clock.tick(MAX_FPS) / 1000                        #delta time en seconde permet e toujours avoir la même vitesse selon fps meme lower (gernre ça calcul fps + time execution)
 			# print(dt)
 			
 			for event in pygame.event.get():

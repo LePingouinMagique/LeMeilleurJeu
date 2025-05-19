@@ -12,6 +12,15 @@ class Data:
         self.ui.create_hearts(self._health)
 
     @property
+    def health(self):
+        return self._health
+
+    @health.setter
+    def health(self, value):
+        self._health = value
+        self.ui.create_hearts(value)
+
+    @property
     def calis(self):
         return self._calis
     @calis.setter
@@ -21,14 +30,7 @@ class Data:
 
 
 
-    @property
-    def health(self):
-        return self._health
 
-    @health.setter
-    def health(self,value):
-        self._health = value
-        self.ui.create_hearts(value)
 
     @property
     def coins(self):

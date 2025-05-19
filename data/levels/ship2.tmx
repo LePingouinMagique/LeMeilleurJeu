@@ -341,7 +341,7 @@
   <object id="390" name="crate" gid="219" x="7829" y="2624" width="50" height="36"/>
   <object id="403" name="palm_small" gid="223" x="7168" y="2560" width="80" height="103"/>
   <object id="404" name="palm_small" gid="223" x="7907" y="2627.5" width="80" height="103"/>
-  <object id="418" name="player" gid="224" x="523.606" y="2111.39" width="74" height="56"/>
+  <object id="418" name="player" gid="224" x="442.606" y="2059.39" width="74" height="56"/>
  </objectgroup>
  <objectgroup id="15" name="Transitions">
   <object id="416" name="parcours1" x="9296" y="2512" width="232" height="120"/>

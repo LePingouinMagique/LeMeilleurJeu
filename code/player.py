@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.wall_jump_power = 1.0
         self.attacking = False
         self.boost = 1.5
-        self.jump_sup = -32
+        self.jump_sup = -60
 
         self.rainbow = [""]
         
@@ -63,8 +63,10 @@ class Player(pygame.sprite.Sprite):
             'hit': Timer(400),
             'lose_health':Timer(1500),
             'boost':Timer(10000),
-            'jump_sup':Timer(110)
+            'jump_sup':Timer(200),
+            'start_gravity':Timer(1000)
         }
+        self.timers['start_gravity'].activate()
         
         
         #TEST######################
@@ -167,9 +169,10 @@ class Player(pygame.sprite.Sprite):
             if not self.platform:
                 self.arrivée_paroie = 0
                 #vertical  # formule bizarre que je comprends pas
-                self.direction.y += self.gravity/2*dt
-                self.hitbox_rect.y += self.direction.y*dt
-                self.direction.y += self.gravity/2*dt
+                if not self.timers['start_gravity'].active:
+                    self.direction.y += self.gravity/2*dt
+                    self.hitbox_rect.y += self.direction.y*dt
+                    self.direction.y += self.gravity/2*dt
             else:
                 self.direction.y = 0
         self.collision('vertical')
@@ -281,6 +284,8 @@ class Player(pygame.sprite.Sprite):
     
         if self.attacking and self.frames_index >= len(self.frames[self.state]):
             self.attacking = False
+
+
     def get_state(self):
         if self.on_surface['floor']:
             if self.attacking:
