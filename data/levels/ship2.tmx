@@ -10,7 +10,7 @@
  <tileset firstgid="256" source="../tilesets/grass.tsx"/>
  <tileset firstgid="261" source="voile2.tsx"/>
  <tileset firstgid="262" name="bar" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../../../../../Downloads/image.png" width="64" height="64"/>
+  <image source="../../Mine/image.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="263" source="../tilesets/wood.tsx"/>
  <tileset firstgid="264" source="bar.tsx"/>
