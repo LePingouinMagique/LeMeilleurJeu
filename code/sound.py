@@ -8,7 +8,8 @@ class SoundManager:
             'pearl': pygame.mixer.Sound('audio/pearl.wav'),
             'jump': pygame.mixer.Sound('audio/jump.wav'),
             'damage': pygame.mixer.Sound('audio/damage.wav'),
-            'coin': pygame.mixer.Sound('audio/coin.wav'),}
+            'coin': pygame.mixer.Sound('audio/coin.wav'),
+            'die': pygame.mixer.Sound('audio/sf_cri_douleur_homme_06.mp3')}
 
 
         self.musics = {

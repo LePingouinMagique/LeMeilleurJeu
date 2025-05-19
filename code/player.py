@@ -119,9 +119,10 @@ class Player(pygame.sprite.Sprite):
             if keys[pygame.K_LEFT] or keys[pygame.K_q]:
                 input_vector.x -=1
                 self.facing_right = False
-            
-            if keys[pygame.K_v]:
+
+            if keys[pygame.K_m]:
                 self.attack()
+            
                 
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x # genre ca met la taille max a 1
 
@@ -305,6 +306,7 @@ class Player(pygame.sprite.Sprite):
 
     def check_death(self):
         if self.data.health <= 0:
+            self.sound_manager.play_sound('die')
             self.rect = self.image.get_frect(topleft=self.checkpoint)
             self.hitbox_rect = self.rect.inflate(-76,-36)
             self.data.health = self.data.max_health
@@ -331,6 +333,9 @@ class Player(pygame.sprite.Sprite):
         self.old_rect = self.hitbox_rect.copy()#a faire avant tout pour avoir l'ancienne position du joueur
         #uptate the times
         self.uptate_timer()
+        for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # 1 = clic gauche
+                    self.attack()
         #séxacute a chaque toursde boucle
         self.input()
         if MANNETTE:

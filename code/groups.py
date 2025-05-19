@@ -40,7 +40,7 @@ class AllSprites(pygame.sprite.Group):
             self.large_cloud_x = 0
             self.large_cloud_tiles = int(self.width/self.large_cloud.get_width()) +2 #nombre de big nuages nécessaires
             self.large_cloud_width, self.large_cloud_height = self.large_cloud.get_size()
-            print(self.large_cloud_tiles)
+            # print(self.large_cloud_tiles)
 
             #small clouds
             #timer => cloud every 2.5 s.

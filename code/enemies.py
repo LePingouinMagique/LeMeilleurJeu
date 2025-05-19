@@ -1,4 +1,4 @@
-from numpy.array_api import vecdot
+
 import pygame
 
 from settings import *
@@ -67,7 +67,6 @@ class Tooth(pygame.sprite.Sprite):
         if self.health <=0:
             self.death()
             if not self.death_timer.active:
-                print("hello")
                 if not self.dead:
                     self.death_timer.activate()
                     self.dead = True
@@ -166,7 +165,6 @@ class Crow(pygame.sprite.Sprite):
         if self.health <= 0:
             self.death()
             if not self.death_timer.active:
-                print("hello")
                 if not self.dead:
                     self.death_timer.activate()
                     self.dead = True
@@ -237,7 +235,6 @@ class Shell(pygame.sprite.Sprite):
             
             #fire
             if self.state == 'fire' and int(self.frame_index) == 3 and not self.has_fired:
-                print("shooot")
                 self.create_pearl(self.rect.center, self.bullet_direction)
                 self.has_fired = True
             

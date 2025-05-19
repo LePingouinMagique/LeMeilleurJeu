@@ -24,8 +24,6 @@ class Level:
         tmx_level_propreties = tmx_map.get_layer_by_name('Data')[0].properties  #bg
         if tmx_level_propreties['bg']:
             bg_tile = level_frames['bg_tiles'][tmx_level_propreties['bg']]
-            print(bg_tile)
-            print('hola')
         else:
             bg_tile = None
         
@@ -98,7 +96,6 @@ class Level:
         except:
             print("no checkpoints")
 
-        print(self.checkpoints)
                     
         for obj in tmx_map.get_layer_by_name('BG details'):
             if obj.name == 'static':
@@ -231,7 +228,6 @@ class Level:
 
 
     def create_pearl(self,pos,direction):
-        print("dd")
         Pearl(pos, (self.all_sprites, self.damage_sprites, self.pearl_sprites),self.pearl_surf, direction, 150)
 
     def pearl_collision(self):
@@ -293,7 +289,6 @@ class Level:
 
         #bottom border
         if self.player.hitbox_rect.bottom > self.level_bottom:
-            print('die')
             self.data.health -=1
 
         #success
