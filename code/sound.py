@@ -18,6 +18,7 @@ class SoundManager:
             'parcours2': pygame.mixer.Sound("Mine/musics/parcours2.ogg"),
             'omni2': pygame.mixer.Sound("Mine/musics/parcours2.ogg"),
             'testclasse': pygame.mixer.Sound("Mine/musics/parcours2.ogg"),
+            'parcours3': pygame.mixer.Sound("Mine/musics/parcours2.ogg"),
 
 
         }

@@ -20,9 +20,9 @@ class Game:
 
 		self.ui = UI(self.font,self.ui_frames)
 		self.data = Data(self.ui)
-		iniit = "testclasse"  #here
+		iniit = "parcours3"  #here
 		self.tmx_map = {
-						"testclasse":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"  #here
+						"parcours3":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"  #here
 		#"ship2":load_pygame(join('data','levels','ship2.tmx')),
 		self.current_stage = Level(self.tmx_map[iniit],self.level_frames,self.data,self,iniit)
 		
@@ -30,6 +30,8 @@ class Game:
 		# print(self.tmx_map)
 		#bg
 	def change_state(self, name):
+		if name == "end_game":
+			pass
 		if name not in self.tmx_map:
 			if len(self.tmx_map) >= MAX_CACHED_MAPS:
 				self.tmx_map.pop(next(iter(self.tmx_map)))  # supprime la plus ancienne
@@ -97,6 +99,8 @@ class Game:
 			#debug("health : "+ str(self.data.health) + '  coins : ' + str(self.data.coins))
 
 			pygame.display.update()
+
+
 
 
 if __name__ == '__main__':
