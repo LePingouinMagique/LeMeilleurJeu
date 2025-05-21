@@ -20,9 +20,9 @@ class Game:
 
 		self.ui = UI(self.font,self.ui_frames)
 		self.data = Data(self.ui)
-		iniit = "parcours3"  #here
+		iniit = "ship2"  #here
 		self.tmx_map = {
-						"parcours3":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"  #here
+						"ship2":load_pygame(join('data','levels',f'{iniit}.tmx'))} #liste qui charge toute les cartes "join('..')"  #here
 		#"ship2":load_pygame(join('data','levels','ship2.tmx')),
 		self.current_stage = Level(self.tmx_map[iniit],self.level_frames,self.data,self,iniit)
 		
